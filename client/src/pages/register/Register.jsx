@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./register.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -147,6 +147,9 @@ export default function Register() {
               </button>
             </form>
           </div>
+              <Link to="/login">
+              <span className="dontAccount">Already have an account? Login </span>
+            </Link>
         </div>
         <div className="reg-right"></div>
       </div>

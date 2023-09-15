@@ -25,10 +25,10 @@ const Sidebar = () => {
   useEffect(() => {
     // Retrieve user role from local storage
     const storedUserRole = JSON.parse(localStorage.getItem("currentUser"));
-    console.log(storedUserRole);
+    console.log(storedUserRole.role);
 
     if (storedUserRole) {
-      setUserRole(storedUserRole);
+      setUserRole(storedUserRole.role);
     }
   }, []);
   const handleLogout = async () => {
@@ -44,15 +44,19 @@ const Sidebar = () => {
     <div className="sidebar">
       {userRole === "user" ? (
         <div>
-          <div className="top">
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <li>
-                <span>Users</span>
-              </li>
+          <div className="top"> <Link to="/" style={{ textDecoration: "none" }}>
+              <img src="http://localhost:3000/assets/logo.png" alt="" />
             </Link>
+
+          
           </div>
           <hr />{" "}
           <div className="center">
+              <Link to="/" style={{ textDecoration: "none" }}>
+              
+                <span>Users</span>
+             
+            </Link>
             <ul>
               <p className="title">MAIN</p>
 
@@ -63,44 +67,19 @@ const Sidebar = () => {
                 </li>
               </Link>
               <p className="title">LISTS</p>
-              <Link to="/users" style={{ textDecoration: "none" }}>
+              {/* <Link to="/users" style={{ textDecoration: "none" }}>
                 <li>
                   <PersonOutlineIcon className="icon" />
-                  <span>My Adverticemnet</span>
+                  <span>Adverticemnets</span>
                 </li>
-              </Link>
-              <Link to="/products" style={{ textDecoration: "none" }}>
-                <li>
-                  <StoreIcon className="icon" />
-                  <span>Products</span>
-                </li>
-              </Link>
-              <li>
-                <CreditCardIcon className="icon" />
-                <span>Orders</span>
-              </li>
-              <li>
-                <LocalShippingIcon className="icon" />
-                <span>Delivery</span>
-              </li>
-              <p className="title">USEFUL</p>
-              <li>
-                <InsertChartIcon className="icon" />
-                <span>Stats</span>
-              </li>
-              <li>
-                <NotificationsNoneIcon className="icon" />
-                <span>Notifications</span>
-              </li>
-              <p className="title">SERVICE</p>
-              <li>
-                <SettingsSystemDaydreamOutlinedIcon className="icon" />
-                <span>System Health</span>
-              </li>
-              <li>
-                <PsychologyOutlinedIcon className="icon" />
-                <span>Logs</span>
-              </li>
+              </Link> */}
+             
+            
+             
+           
+             
+             
+            
               <li>
                 <SettingsApplicationsIcon className="icon" />
                 <span>Settings</span>

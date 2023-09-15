@@ -16,13 +16,16 @@ import { Users } from "./pages/users/Users";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
-
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   return (
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route index element={<Home />} />
+            <Route
+              index
+              element={currentUser ? <Home /> : <Register></Register>}
+            />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="users">
