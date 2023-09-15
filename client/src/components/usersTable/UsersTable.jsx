@@ -1,10 +1,11 @@
-import "./datatable.scss";
+import "./usersTable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../userssource";
+
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { userColumns, userRows } from "../../userssource";
 
-const Datatable = () => {
+const UsersTable = () => {
   const [data, setData] = useState(userRows);
 
   const handleDelete = (id) => {
@@ -36,7 +37,7 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Adverticements Details
+        Users Details
         <Link to="/users/new" className="link">
           Add New
         </Link>
@@ -53,4 +54,4 @@ const Datatable = () => {
   );
 };
 
-export default Datatable;
+export default UsersTable;

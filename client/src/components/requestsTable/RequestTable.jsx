@@ -1,10 +1,11 @@
-import "./datatable.scss";
+import "./requestTable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../userssource";
+
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { userColumns, userRows } from "../../requestsource";
 
-const Datatable = () => {
+const RequestTable = () => {
   const [data, setData] = useState(userRows);
 
   const handleDelete = (id) => {
@@ -15,19 +16,21 @@ const Datatable = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 200,
+      width: 300,
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
+            {/* <Link to="/users/test" style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
-            </Link>
-            <div
+            </Link> */}
+            {/* <div
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}
             >
               Delete
-            </div>
+            </div> */}
+            <div className="approveButton">Approve</div>
+            <div className="rejectButton">Reject</div>
           </div>
         );
       },
@@ -36,10 +39,10 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Adverticements Details
-        <Link to="/users/new" className="link">
+        Requests Details
+        {/* <Link to="/users/new" className="link">
           Add New
-        </Link>
+        </Link> */}
       </div>
       <DataGrid
         className="datagrid"
@@ -53,4 +56,4 @@ const Datatable = () => {
   );
 };
 
-export default Datatable;
+export default RequestTable;

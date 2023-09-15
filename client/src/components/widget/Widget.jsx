@@ -4,7 +4,12 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
-
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import SentimentNeutralIcon from "@mui/icons-material/SentimentNeutral";
+import GroupIcon from "@mui/icons-material/Group";
+import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
+import FeaturedVideoIcon from "@mui/icons-material/FeaturedVideo";
 const Widget = ({ type }) => {
   let data;
 
@@ -19,11 +24,11 @@ const Widget = ({ type }) => {
         isMoney: false,
         link: "See all users",
         icon: (
-          <PersonOutlinedIcon
+          <GroupIcon
             className="icon"
             style={{
               color: "crimson",
-              backgroundColor: "rgba(255, 0, 0, 0.2)",
+              backgroundColor: "#f6e58d",
             }}
           />
         ),
@@ -31,27 +36,27 @@ const Widget = ({ type }) => {
       break;
     case "order":
       data = {
-        title: "ORDERS",
+        title: "Adverticements",
         isMoney: false,
-        link: "View all orders",
+        link: "View all adverticements",
         icon: (
-          <ShoppingCartOutlinedIcon
+          <FeaturedVideoIcon
             className="icon"
             style={{
-              backgroundColor: "rgba(218, 165, 32, 0.2)",
-              color: "goldenrod",
+              backgroundColor: "#4834d4",
+              color: "white",
             }}
           />
         ),
       };
       break;
-    case "earning":
+    case "netural":
       data = {
-        title: "EARNINGS",
-        isMoney: true,
+        title: "Requets",
+        isMoney: false,
         link: "View net earnings",
         icon: (
-          <MonetizationOnOutlinedIcon
+          <SentimentNeutralIcon
             className="icon"
             style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
           />
@@ -60,11 +65,11 @@ const Widget = ({ type }) => {
       break;
     case "balance":
       data = {
-        title: "BALANCE",
-        isMoney: true,
-        link: "See details",
+        title: "REQUESTS",
+        isMoney: false,
+        link: "See requests",
         icon: (
-          <AccountBalanceWalletOutlinedIcon
+          <ScheduleSendIcon
             className="icon"
             style={{
               backgroundColor: "rgba(128, 0, 128, 0.2)",
