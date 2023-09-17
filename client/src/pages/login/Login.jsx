@@ -74,7 +74,7 @@ export default function Login() {
     <div className="login">
       <div className="loginWrapper">
         <img
-          src="http://localhost:3000/assets/background.jpg"
+          src=""
           className="coverlogo"
           alt="Login cover image"
         ></img>
