@@ -89,6 +89,14 @@ const Sidebar = () => {
                 <AccountCircleOutlinedIcon className="icon" />
                 <span>Profile</span>
               </li>
+               <li>
+                <CalendarMonthIcon className="icon" />
+                <span>Contact Us</span>
+              </li>
+               <li>
+                <CalendarMonthIcon className="icon" />
+                <span>About Us</span>
+              </li>
               <Link to={"/login"} onClick={handleLogout}>
                 <li>
                   <ExitToAppIcon className="icon" />
@@ -127,7 +135,7 @@ const Sidebar = () => {
               <Link to="/users" style={{ textDecoration: "none" }}>
                 <li>
                   <PersonOutlineIcon className="icon" />
-                  <span>Users</span>
+                  <span>Customers</span>
                 </li>
               </Link>
 
@@ -137,11 +145,11 @@ const Sidebar = () => {
                   <span>Request</span>
                 </li>
               </Link>
-              <li>
+              {/* <li>
                 <CalendarMonthIcon className="icon" />
                 <span>Schedule</span>
-              </li>
-              <p className="title">USEFUL</p>
+              </li> */}
+              {/* <p className="title">USEFUL</p>
               <li>
                 <InsertChartIcon className="icon" />
                 <span>Stats</span>
@@ -149,13 +157,14 @@ const Sidebar = () => {
               <li>
                 <NotificationsNoneIcon className="icon" />
                 <span>Notifications</span>
-              </li>
+              </li> */}
 
               <p className="title">USER</p>
               <li>
                 <AccountCircleOutlinedIcon className="icon" />
                 <span>Profile</span>
               </li>
+             
               <Link to={"/login"} onClick={handleLogout}>
                 <li>
                   <ExitToAppIcon className="icon" />

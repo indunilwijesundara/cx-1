@@ -37,7 +37,7 @@ const UsersTable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Users Details
+       Customers Details
         <Link to="/users/new" className="link">
           Add New
         </Link>

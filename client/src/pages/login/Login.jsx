@@ -14,6 +14,9 @@ export default function Login() {
     password: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -42,13 +45,15 @@ export default function Login() {
     // Return true if there are no errors
     return Object.values(errors).every((error) => !error);
   };
+
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
+      setIsLoading(true);
+
       try {
-        // Send form data to the backend using Axios
         const response = await axios.post(
           "http://localhost:8800/api/auth/login",
           formData
@@ -56,10 +61,11 @@ export default function Login() {
         localStorage.setItem("currentUser", JSON.stringify(response.data));
         console.log("Login successful:", response.data);
         navigate("/");
-        // Redirect to the desired page after successful login
       } catch (error) {
         console.error("Login error:", error.response.data);
-        // Handle login error (e.g., display an error message)
+        setErrorMessage("Invalid username or password"); // Set error message
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -75,6 +81,7 @@ export default function Login() {
         <div className="loginBox">
           <div className="loginLeft">
             <h3 className="loginLogo">Login</h3>
+            {errorMessage && <div className="error">{errorMessage}</div>} {/* Display error message */}
             <form onSubmit={handleSubmit}>
               <label>User Name</label>
               <input
@@ -102,8 +109,8 @@ export default function Login() {
                 <div className="error">{formErrors.password}</div>
               )}
 
-              <button type="submit" className="loginButton">
-                Log In
+              <button type="submit" className="loginButton" disabled={isLoading}>
+                {isLoading ? "Logging In..." : "Log In"}
               </button>
             </form>
             <br></br>
