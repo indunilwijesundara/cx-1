@@ -37,10 +37,10 @@ const UsersTable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Users Details
-        <Link to="/users/new" className="link">
+       Customers Details
+        {/* <Link to="/users/new" className="link">
           Add New
-        </Link>
+        </Link> */}
       </div>
       <DataGrid
         className="datagrid"

@@ -25,10 +25,10 @@ const Sidebar = () => {
   useEffect(() => {
     // Retrieve user role from local storage
     const storedUserRole = JSON.parse(localStorage.getItem("currentUser"));
-    console.log(storedUserRole);
+    console.log(storedUserRole.role);
 
     if (storedUserRole) {
-      setUserRole(storedUserRole);
+      setUserRole(storedUserRole.role);
     }
   }, []);
   const handleLogout = async () => {
@@ -44,15 +44,19 @@ const Sidebar = () => {
     <div className="sidebar">
       {userRole === "user" ? (
         <div>
-          <div className="top">
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <li>
-                <span>Users</span>
-              </li>
+          <div className="top"> <Link to="/" style={{ textDecoration: "none" }}>
+              <img src="http://localhost:3000/assets/logo.png" alt="" />
             </Link>
+
+          
           </div>
           <hr />{" "}
           <div className="center">
+              <Link to="/" style={{ textDecoration: "none" }}>
+              
+                <span>Users</span>
+             
+            </Link>
             <ul>
               <p className="title">MAIN</p>
 
@@ -63,52 +67,32 @@ const Sidebar = () => {
                 </li>
               </Link>
               <p className="title">LISTS</p>
-              <Link to="/users" style={{ textDecoration: "none" }}>
+              {/* <Link to="/users" style={{ textDecoration: "none" }}>
                 <li>
                   <PersonOutlineIcon className="icon" />
-                  <span>My Adverticemnet</span>
+                  <span>Adverticemnets</span>
                 </li>
-              </Link>
-              <Link to="/products" style={{ textDecoration: "none" }}>
+              </Link> */}
+                         
+                
+               <Link to="/adverticement" style={{ textDecoration: "none" }}>
                 <li>
-                  <StoreIcon className="icon" />
-                  <span>Products</span>
+                  <SettingsSystemDaydreamOutlinedIcon className="icon" />
+                  <span>My Ads</span>
                 </li>
               </Link>
-              <li>
-                <CreditCardIcon className="icon" />
-                <span>Orders</span>
-              </li>
-              <li>
-                <LocalShippingIcon className="icon" />
-                <span>Delivery</span>
-              </li>
-              <p className="title">USEFUL</p>
-              <li>
-                <InsertChartIcon className="icon" />
-                <span>Stats</span>
-              </li>
-              <li>
-                <NotificationsNoneIcon className="icon" />
-                <span>Notifications</span>
-              </li>
-              <p className="title">SERVICE</p>
-              <li>
-                <SettingsSystemDaydreamOutlinedIcon className="icon" />
-                <span>System Health</span>
-              </li>
-              <li>
-                <PsychologyOutlinedIcon className="icon" />
-                <span>Logs</span>
-              </li>
-              <li>
-                <SettingsApplicationsIcon className="icon" />
-                <span>Settings</span>
-              </li>
-              <p className="title">USER</p>
-              <li>
+               <li>
                 <AccountCircleOutlinedIcon className="icon" />
                 <span>Profile</span>
+              </li>
+             
+               <li>
+                <CalendarMonthIcon className="icon" />
+                <span>Contact Us</span>
+              </li>
+               <li>
+                <CalendarMonthIcon className="icon" />
+                <span>About Us</span>
               </li>
               <Link to={"/login"} onClick={handleLogout}>
                 <li>
@@ -148,7 +132,7 @@ const Sidebar = () => {
               <Link to="/users" style={{ textDecoration: "none" }}>
                 <li>
                   <PersonOutlineIcon className="icon" />
-                  <span>Users</span>
+                  <span>Customers</span>
                 </li>
               </Link>
 
@@ -158,11 +142,11 @@ const Sidebar = () => {
                   <span>Request</span>
                 </li>
               </Link>
-              <li>
+              {/* <li>
                 <CalendarMonthIcon className="icon" />
                 <span>Schedule</span>
-              </li>
-              <p className="title">USEFUL</p>
+              </li> */}
+              {/* <p className="title">USEFUL</p>
               <li>
                 <InsertChartIcon className="icon" />
                 <span>Stats</span>
@@ -170,13 +154,14 @@ const Sidebar = () => {
               <li>
                 <NotificationsNoneIcon className="icon" />
                 <span>Notifications</span>
-              </li>
+              </li> */}
 
               <p className="title">USER</p>
               <li>
                 <AccountCircleOutlinedIcon className="icon" />
                 <span>Profile</span>
               </li>
+             
               <Link to={"/login"} onClick={handleLogout}>
                 <li>
                   <ExitToAppIcon className="icon" />

@@ -13,43 +13,38 @@ import AdverticementList from "./pages/AdverticementList/AdverticementList";
 import Adverticement from "./pages/adverticement/Adverticement";
 import Requests from "./pages/requests/Requests";
 import { Users } from "./pages/users/Users";
+import MyAds from "./pages/myads/MyAds";
+import NewAdverticement from "./pages/newadverticement/NewAdverticement";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
-
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   return (
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
         <Routes>
-          <Route path="/">
-            <Route index element={<Home />} />
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="users">
-              <Route index element={<Users />} />
-              <Route path=":userId" element={<Single />} />
-              <Route
-                path="new"
-                element={<New inputs={userInputs} title="Add New User" />}
-              />
-            </Route>
-            <Route path="adverticement">
-              <Route index element={<AdverticementList />} />
-              <Route path=":adverticementId" element={<Adverticement />} />
-              <Route
-                path="new"
-                element={<New inputs={productInputs} title="Add New Product" />}
-              />
-            </Route>
-            <Route path="requests">
-              <Route index element={<Requests />} />
-              <Route path=":requestsId" element={<Adverticement />} />
-              <Route
-                path="new"
-                element={<New inputs={productInputs} title="Add New Product" />}
-              />
-            </Route>
-          </Route>
+          <Route path="/" element={currentUser ? <Home /> : <Login></Login>} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/users" element={<Users />} />
+
+          <Route path="/users/:userId" element={<Single />} />
+          <Route
+            path="/users/new"
+            element={<New inputs={userInputs} title="Add New User" />}
+          />
+          <Route path="/adverticement" element={<AdverticementList />} />
+          <Route
+            path="/adverticement/newads"
+            element={<NewAdverticement title="Add New Ads" />}
+          />
+
+          <Route
+            path="/adverticement/:adverticementId"
+            element={<Adverticement />}
+          />
+          <Route path="/requests" element={<Requests />} />
+          {/* <Route path="users" element={<YourComponentHere />} /> */}
         </Routes>
       </BrowserRouter>
     </div>

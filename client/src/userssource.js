@@ -2,7 +2,7 @@ export const userColumns = [
   { field: "id", headerName: "ID", width: 70 },
   {
     field: "user",
-    headerName: "User",
+    headerName: "Customer",
     width: 230,
     renderCell: (params) => {
       return (
@@ -46,7 +46,7 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     status: "active",
     email: "1snow@gmail.com",
-    contactno:"0723434345"
+    contactno: "0723434345",
   },
   {
     id: 2,
@@ -54,7 +54,7 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "2snow@gmail.com",
     status: "passive",
-    contactno:"0723434345"
+    contactno: "0723434345",
   },
   {
     id: 3,
@@ -62,7 +62,7 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "3snow@gmail.com",
     status: "pending",
-    contactno:"0723434345"
+    contactno: "0723434345",
   },
   {
     id: 4,
@@ -70,7 +70,7 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "4snow@gmail.com",
     status: "active",
-    contactno:"0723434345"
+    contactno: "0723434345",
   },
   {
     id: 5,
@@ -78,7 +78,7 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "5snow@gmail.com",
     status: "passive",
-    contactno:"0723434345"
+    contactno: "0723434345",
   },
   {
     id: 6,
@@ -86,7 +86,7 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "6snow@gmail.com",
     status: "active",
-    contactno:"0723434345"
+    contactno: "0723434345",
   },
   {
     id: 7,
@@ -94,7 +94,7 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "7snow@gmail.com",
     status: "passive",
-    contactno:"0723434345"
+    contactno: "0723434345",
   },
   {
     id: 8,
@@ -102,7 +102,7 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "8snow@gmail.com",
     status: "active",
-    contactno:"0723434345"
+    contactno: "0723434345",
   },
   {
     id: 9,
@@ -110,7 +110,7 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "snow@gmail.com",
     status: "pending",
-    contactno:"0723434345"
+    contactno: "0723434345",
   },
   {
     id: 10,
@@ -118,6 +118,6 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "snow@gmail.com",
     status: "active",
-    contactno:"0723434345"
+    contactno: "0723434345",
   },
 ];

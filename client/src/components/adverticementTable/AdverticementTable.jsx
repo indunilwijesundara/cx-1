@@ -38,9 +38,9 @@ const AdverticementTable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         Adverticements Details
-        {/* <Link to="/users/new" className="link">
+         <Link to="/adverticement/newads" className="link">
           Add New
-        </Link> */}
+        </Link> 
       </div>
       <DataGrid
         className="datagrid"

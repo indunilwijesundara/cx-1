@@ -3,10 +3,12 @@
   justify-content: space-between;
   flex: 1;
   padding: 10px;
-  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  -webkit-box-shadow: 2px 4px 10px 1px rgba(19, 241, 52, 0.47);
+  box-shadow: 2px 4px 10px 1px rgba(67, 239, 29, 0.47);
   border-radius: 10px;
   height: 100px;
+  background-color:white;
+ 
 
   .left,
   .right {
@@ -17,18 +19,20 @@
     .title {
       font-weight: bold;
       font-size: 14px;
-      color: rgb(160, 160, 160);
+      color: black;
     }
 
     .counter {
       font-size: 28px;
       font-weight: 300;
+      color:black;
     }
 
     .link {
       width: max-content;
       font-size: 12px;
-      border-bottom: 1px solid gray;
+      border-bottom: 1px solid rgb(251, 251, 251);
+      color:black;
     }
 
     .percentage {

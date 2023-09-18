@@ -4,7 +4,7 @@ export const userColumns = [
   { field: "id", headerName: "ID", width: 70 },
   {
     field: "user",
-    headerName: "Client",
+    headerName: "Customer",
     width: 230,
     renderCell: (params) => {
       return (
@@ -24,21 +24,19 @@ export const userColumns = [
     field: "adverticement",
     headerName: "Adverticement",
     width: 230,
-    renderCell:(params)=>{
-      return(
+    renderCell: (params) => {
+      return (
         <div className="cellWithImg">
-       
-        <ReactPlayer
-              height={30}
-              width={40}
-              url={params.row.adverticement}
-              controls={true}
-            />
-        {params.row.adDetails}
-      </div>
+          <ReactPlayer
+            height={30}
+            width={40}
+            url={params.row.adverticement}
+            controls={true}
+          />
+          {params.row.adDetails}
+        </div>
       );
-    }
-
+    },
   },
 
   {
@@ -63,8 +61,8 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     status: "active",
     email: "1snow@gmail.com",
-    adverticement:"https://www.youtube.com/watch?v=ReIIik816qA",
-    adDetails:"LUX Ads"
+    adverticement: "https://www.youtube.com/watch?v=ReIIik816qA",
+    adDetails: "LUX Ads",
   },
   {
     id: 2,
@@ -72,8 +70,8 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "2snow@gmail.com",
     status: "passive",
-    adverticement:"https://www.youtube.com/watch?v=ReIIik816qA",
-    adDetails:"LUX Ads"
+    adverticement: "https://www.youtube.com/watch?v=ReIIik816qA",
+    adDetails: "LUX Ads",
   },
   {
     id: 3,
@@ -81,8 +79,8 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "3snow@gmail.com",
     status: "pending",
-    adverticement:"https://www.youtube.com/watch?v=ReIIik816qA",
-    adDetails:"LUX Ads"
+    adverticement: "https://www.youtube.com/watch?v=ReIIik816qA",
+    adDetails: "LUX Ads",
   },
   {
     id: 4,
@@ -90,8 +88,8 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "4snow@gmail.com",
     status: "active",
-    adverticement:"https://www.youtube.com/watch?v=ReIIik816qA",
-    adDetails:"LUX Ads"
+    adverticement: "https://www.youtube.com/watch?v=ReIIik816qA",
+    adDetails: "LUX Ads",
   },
   {
     id: 5,
@@ -99,8 +97,8 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "5snow@gmail.com",
     status: "passive",
-    adverticement:"https://www.youtube.com/watch?v=ReIIik816qA",
-    adDetails:"LUX Ads"
+    adverticement: "https://www.youtube.com/watch?v=ReIIik816qA",
+    adDetails: "LUX Ads",
   },
   {
     id: 6,
@@ -108,8 +106,8 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "6snow@gmail.com",
     status: "active",
-    adverticement:"https://www.youtube.com/watch?v=ReIIik816qA",
-    adDetails:"LUX Ads"
+    adverticement: "https://www.youtube.com/watch?v=ReIIik816qA",
+    adDetails: "LUX Ads",
   },
   {
     id: 7,
@@ -117,8 +115,8 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "7snow@gmail.com",
     status: "passive",
-    adverticement:"https://www.youtube.com/watch?v=ReIIik816qA",
-    adDetails:"LUX Ads"
+    adverticement: "https://www.youtube.com/watch?v=ReIIik816qA",
+    adDetails: "LUX Ads",
   },
   {
     id: 8,
@@ -126,8 +124,8 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "8snow@gmail.com",
     status: "active",
-    adverticement:"https://www.youtube.com/watch?v=ReIIik816qA",
-    adDetails:"LUX Ads"
+    adverticement: "https://www.youtube.com/watch?v=ReIIik816qA",
+    adDetails: "LUX Ads",
   },
   {
     id: 9,
@@ -135,8 +133,8 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "snow@gmail.com",
     status: "pending",
-    adverticement:"https://www.youtube.com/watch?v=ReIIik816qA",
-    adDetails:"LUX Ads"
+    adverticement: "https://www.youtube.com/watch?v=ReIIik816qA",
+    adDetails: "LUX Ads",
   },
   {
     id: 10,
@@ -144,7 +142,7 @@ export const userRows = [
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "snow@gmail.com",
     status: "active",
-    adverticement:"https://www.youtube.com/watch?v=ReIIik816qA",
-     adDetails:"LUX Ads"
+    adverticement: "https://www.youtube.com/watch?v=ReIIik816qA",
+    adDetails: "LUX Ads",
   },
 ];
