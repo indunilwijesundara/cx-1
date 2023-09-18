@@ -58,9 +58,10 @@ export default function Login() {
           "http://localhost:8800/api/auth/login",
           formData
         );
+        navigate("/");
         localStorage.setItem("currentUser", JSON.stringify(response.data));
         console.log("Login successful:", response.data);
-        navigate("/");
+        
       } catch (error) {
         console.error("Login error:", error.response.data);
         setErrorMessage("Invalid username or password"); // Set error message

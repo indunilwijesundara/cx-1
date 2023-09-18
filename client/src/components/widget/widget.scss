@@ -7,7 +7,7 @@
   box-shadow: 2px 4px 10px 1px rgba(67, 239, 29, 0.47);
   border-radius: 10px;
   height: 100px;
-  background-color:rgb(5, 11, 83);
+  background-color:white;
  
 
   .left,
@@ -19,20 +19,20 @@
     .title {
       font-weight: bold;
       font-size: 14px;
-      color: rgb(250, 247, 247);
+      color: black;
     }
 
     .counter {
       font-size: 28px;
       font-weight: 300;
-      color: white;
+      color:black;
     }
 
     .link {
       width: max-content;
       font-size: 12px;
       border-bottom: 1px solid rgb(251, 251, 251);
-      color: white;
+      color:black;
     }
 
     .percentage {

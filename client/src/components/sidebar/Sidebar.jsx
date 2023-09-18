@@ -73,22 +73,19 @@ const Sidebar = () => {
                   <span>Adverticemnets</span>
                 </li>
               </Link> */}
-             
-            
-             
-           
-             
-             
-            
-              <li>
-                <SettingsApplicationsIcon className="icon" />
-                <span>Settings</span>
-              </li>
-              <p className="title">USER</p>
-              <li>
+                         
+                
+               <Link to="/adverticement" style={{ textDecoration: "none" }}>
+                <li>
+                  <SettingsSystemDaydreamOutlinedIcon className="icon" />
+                  <span>My Ads</span>
+                </li>
+              </Link>
+               <li>
                 <AccountCircleOutlinedIcon className="icon" />
                 <span>Profile</span>
               </li>
+             
                <li>
                 <CalendarMonthIcon className="icon" />
                 <span>Contact Us</span>

@@ -37,3 +37,32 @@ export const editAdverticement = async (req, res) => {
     res.status(500).json({ error: "Failed to update advertisement" });
   }
 };
+export const getAdverticement = async (req, res) => {
+  try {
+    const adverticement = await Advertisement.findById(req.params.id);
+    res.status(200).send(adverticement);
+  } catch (error) {
+    res.status(500).send("Not Found");
+  }
+};
+export const getAllAdverticements = async (req, res) => {
+  try {
+    const adverticement = await Advertisement.find();
+    res.status(200).send(adverticement);
+  } catch (error) {
+    res.status(500).send("Not Found");
+  }
+};
+export const deleteAdverticement = async (req, res) => {
+  try {
+    const advertisement = await Advertisement.findByIdAndDelete(req.params.id);
+
+    if (!advertisement) {
+      return res.status(404).json({ message: "Advertisement not found" });
+    }
+
+    res.status(200).json({ message: "Advertisement deleted successfully" });
+  } catch (error) {
+    res.status(500).send("Not found");
+  }
+};

@@ -18,6 +18,9 @@ export default function Register() {
     confirmPassword: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -57,16 +60,16 @@ export default function Register() {
 
     setFormErrors(errors);
 
-    // Return true if there are no errors
     return Object.values(errors).every((error) => !error);
   };
+
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
 
     if (validateForm()) {
-      // Send form data to the backend using Axios
+      setIsLoading(true);
+
       try {
         const response = await axios.post(
           "http://localhost:8800/api/auth/register",
@@ -74,10 +77,11 @@ export default function Register() {
         );
         console.log("Registration successful:", response.data);
         navigate("/login");
-        // Redirect to a success page or perform any other actions
       } catch (error) {
         console.error("Registration error:", error.response.data);
-        // Handle registration error (e.g., display an error message)
+        setErrorMessage("Registration failed. Please try again."); // Set error message
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -88,6 +92,7 @@ export default function Register() {
         <div className="regbox">
           <div className="reg-left">
             <h3>Register Your Account</h3>
+            {errorMessage && <div className="error">{errorMessage}</div>} {/* Display error message */}
             <form onSubmit={handleSubmit}>
               <label>User Name</label>
               <input
@@ -142,14 +147,14 @@ export default function Register() {
               )}
 
               <br />
-              <button className="sinBtn" type="submit">
-                Register
+              <button className="sinBtn" type="submit" disabled={isLoading}>
+                {isLoading ? "Registering..." : "Register"}
               </button>
             </form>
           </div>
-              <Link to="/login">
-              <span className="dontAccount">Already have an account? Login </span>
-            </Link>
+          <Link to="/login">
+            <span className="dontAccount">Already have an account? Login</span>
+          </Link>
         </div>
         <div className="reg-right"></div>
       </div>
