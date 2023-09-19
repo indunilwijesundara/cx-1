@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import CircularProgress from "@mui/material/CircularProgress";
 import "./newAdverticement.scss";
 import uploadFirebase from "../../utils/uploadFirebase";
 import axios from "axios";
@@ -18,13 +19,16 @@ const NewAdverticement = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
-  console.log(formData);
+
   const validateForm = () => {
     const newErrors = {};
 
@@ -45,23 +49,29 @@ const NewAdverticement = () => {
   };
 
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  console.log(formData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return; // Form validation failed, do not proceed with submission
+    if (!validateForm() || uploading) {
+      return;
     }
 
     try {
-      const url = await uploadFirebase(file);
+      setUploading(true);
+      const url = await uploadFirebase(file, (progressEvent) => {
+        const percentCompleted = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        setUploadProgress(percentCompleted);
+      });
+
       await axios.post("http://localhost:8800/api/adverticements/", {
         ...formData,
         video: url,
         userId: currentUser._id,
       });
       navigate("/adverticement");
-      // Clear the form after successful submission
       setFormData({
         title: "",
         scheduleDate: "",
@@ -69,35 +79,14 @@ const NewAdverticement = () => {
         scheduleTime: "",
       });
       setFile(null);
+      setUploadProgress(0);
+      setUploading(false);
     } catch (error) {
       console.error("Error uploading data:", error);
+      setUploading(false);
     }
   };
 
-  const [uploadProgress, setUploadProgress] = useState(0);
-
-  useEffect(() => {
-    const uploadProgressHandler = (progressEvent) => {
-      const percentCompleted = Math.round(
-        (progressEvent.loaded * 100) / progressEvent.total
-      );
-      setUploadProgress(percentCompleted);
-    };
-
-    // Set up axios request interceptor to track upload progress
-    const axiosCancelTokenSource = axios.CancelToken.source();
-    axios.defaults.cancelToken = axiosCancelTokenSource.token;
-
-    axios.interceptors.request.use((config) => {
-      config.onUploadProgress = uploadProgressHandler;
-      return config;
-    });
-
-    return () => {
-      // Cleanup the interceptor when the component unmounts
-      axiosCancelTokenSource.cancel("Component unmounted");
-    };
-  }, []);
   return (
     <div className="new">
       <Sidebar />
@@ -109,12 +98,7 @@ const NewAdverticement = () => {
         <div className="bottom">
           <div className="left">
             {file ? (
-              <ReactPlayer
-                height={300}
-                width={400}
-                url={formData.video} // Use the video URL from the advertisement data
-                controls={true}
-              />
+              <ReactPlayer height={300} width={400} url={""} controls={true} />
             ) : (
               <img
                 src="https://icon-library.com/images/upload_video_162306_9899.png"
@@ -134,11 +118,6 @@ const NewAdverticement = () => {
                   onChange={(e) => setFile(e.target.files[0])}
                 />
               </div>
-              {uploadProgress > 0 && (
-                <div className="upload-progress">
-                  Uploading: {uploadProgress}% completed
-                </div>
-              )}
               <div className="formInput">
                 <label>Title</label>
                 <input
@@ -176,8 +155,24 @@ const NewAdverticement = () => {
                   <span className="error">{errors.scheduleTime}</span>
                 )}
               </div>
-
-              <button type="submit">Send</button>
+              {uploadProgress > 0 && (
+                <div className="upload-progress">
+                  Uploading: {uploadProgress}% completed
+                </div>
+              )}
+              {uploading ? (
+                <div className="formInput">
+                  <div>
+                    <CircularProgress size={34} thickness={5} />
+                  </div>
+                </div>
+              ) : (
+                <div className="formInput">
+                  <button type="submit">
+                    {uploading ? "Uploading..." : "Send"}
+                  </button>
+                </div>
+              )}
             </form>
           </div>
         </div>
