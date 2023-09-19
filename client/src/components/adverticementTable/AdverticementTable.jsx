@@ -60,8 +60,8 @@ const AdverticementTable = () => {
     }
   };
   const userColumns = [
-    { field: "id", headerName: "ID", width: 150 },
-    { field: "title", headerName: "Title", width: 150 },
+    { field: "id", headerName: "ID", width: 250 },
+    { field: "title", headerName: "Title", width: 100 },
     {
       field: "video",
       headerName: "Video",
@@ -88,7 +88,7 @@ const AdverticementTable = () => {
     {
       field: "scheduleTime",
       headerName: "Schedule Time",
-      width: 200,
+      width: 150,
     },
     {
       field: "status",
