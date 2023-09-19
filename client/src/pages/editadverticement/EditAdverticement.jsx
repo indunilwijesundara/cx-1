@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import "./newAdverticement.scss";
+import "./editAdverticement.scss";
 import uploadFirebase from "../../utils/uploadFirebase";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import ReactPlayer from "react-player";
+import { useNavigate, useParams } from "react-router-dom";
 
-const NewAdverticement = () => {
+const EditAdverticement = () => {
+  const navigate = useNavigate();
+  const { adverticementId } = useParams();
+
+  // Move useState calls to the top of the component
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
@@ -16,15 +19,55 @@ const NewAdverticement = () => {
     scheduleTime: "",
     video: "",
   });
-
+  const [advertisement, setAdvertisement] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchAdvertisementDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8800/api/adverticements/${adverticementId}`
+        );
+        setAdvertisement(response.data);
+        setLoading(false);
+        // Set the initial formData state with existing advertisement data
+        setFormData({
+          title: response.data.title,
+          // Convert the fetched date to "YYYY-MM-DD" format
+          scheduleDate: response.data.scheduleDate
+            ? new Date(response.data.scheduleDate).toISOString().split("T")[0]
+            : "",
+          scheduleTime: response.data.scheduleTime
+            ? new Date(response.data.scheduleTime).toISOString().split("T")[0]
+            : "",
+          video: response.data.video,
+        });
+        console.log("Fetched date:", response.data);
+        console.log("Formatted date:", formData.scheduleDate);
+      } catch (error) {
+        console.error("Error fetching advertisement details", error);
+      }
+    };
+
+    fetchAdvertisementDetails();
+  }, [adverticementId]);
+
+  // Add conditional rendering for when data is loading or not available
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!advertisement) {
+    return <div>No advertisement data found.</div>;
+  }
+
   const handleChange = (e) => {
     setFormData((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
-  console.log(formData);
+
   const validateForm = () => {
     const newErrors = {};
 
@@ -45,7 +88,7 @@ const NewAdverticement = () => {
   };
 
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  console.log(formData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -55,49 +98,20 @@ const NewAdverticement = () => {
 
     try {
       const url = await uploadFirebase(file);
-      await axios.post("http://localhost:8800/api/adverticements/", {
-        ...formData,
-        video: url,
-        userId: currentUser._id,
-      });
+      await axios.put(
+        `http://localhost:8800/api/adverticements/${adverticementId}`,
+        {
+          ...formData,
+          video: url,
+          userId: currentUser._id,
+        }
+      );
       navigate("/adverticement");
-      // Clear the form after successful submission
-      setFormData({
-        title: "",
-        scheduleDate: "",
-        video: "",
-        scheduleTime: "",
-      });
-      setFile(null);
     } catch (error) {
-      console.error("Error uploading data:", error);
+      console.error("Error updating data:", error);
     }
   };
 
-  const [uploadProgress, setUploadProgress] = useState(0);
-
-  useEffect(() => {
-    const uploadProgressHandler = (progressEvent) => {
-      const percentCompleted = Math.round(
-        (progressEvent.loaded * 100) / progressEvent.total
-      );
-      setUploadProgress(percentCompleted);
-    };
-
-    // Set up axios request interceptor to track upload progress
-    const axiosCancelTokenSource = axios.CancelToken.source();
-    axios.defaults.cancelToken = axiosCancelTokenSource.token;
-
-    axios.interceptors.request.use((config) => {
-      config.onUploadProgress = uploadProgressHandler;
-      return config;
-    });
-
-    return () => {
-      // Cleanup the interceptor when the component unmounts
-      axiosCancelTokenSource.cancel("Component unmounted");
-    };
-  }, []);
   return (
     <div className="new">
       <Sidebar />
@@ -109,12 +123,10 @@ const NewAdverticement = () => {
         <div className="bottom">
           <div className="left">
             {file ? (
-              <ReactPlayer
-                height={300}
-                width={400}
-                url={formData.video} // Use the video URL from the advertisement data
-                controls={true}
-              />
+              <video width="320" height="240" controls>
+                <source src={formData.video} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             ) : (
               <img
                 src="https://icon-library.com/images/upload_video_162306_9899.png"
@@ -134,11 +146,7 @@ const NewAdverticement = () => {
                   onChange={(e) => setFile(e.target.files[0])}
                 />
               </div>
-              {uploadProgress > 0 && (
-                <div className="upload-progress">
-                  Uploading: {uploadProgress}% completed
-                </div>
-              )}
+
               <div className="formInput">
                 <label>Title</label>
                 <input
@@ -166,9 +174,10 @@ const NewAdverticement = () => {
               <div className="formInput">
                 <label>Schedule Time</label>
                 <input
-                  type="time"
+                  type="date"
                   name="scheduleTime"
                   placeholder=""
+                  default={formData.scheduleTime}
                   value={formData.scheduleTime}
                   onChange={handleChange}
                 />
@@ -186,4 +195,4 @@ const NewAdverticement = () => {
   );
 };
 
-export default NewAdverticement;
+export default EditAdverticement;

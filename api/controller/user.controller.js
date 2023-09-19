@@ -15,3 +15,28 @@ export const getUser = async (req, res, next) => {
 
   res.status(200).send(user);
 };
+export const getUsersWithUserRole = async (req, res) => {
+  try {
+    // Find users where the role is 'user'
+    const users = await User.find({ role: 'user' });
+    res.json(users);
+  } catch (error) {
+    console.error('Error fetching users with role "user"', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+export const getUserById = async (req, res) => {
+  try {
+    // Find a user by their ID
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('Error fetching user by ID', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};

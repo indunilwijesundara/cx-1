@@ -45,6 +45,16 @@ export const getAdverticement = async (req, res) => {
     res.status(500).send("Not Found");
   }
 };
+export const getUserAllAdverticements = async (req, res) => {
+  try {
+    const { userId } = req.params; // Assuming you pass the user ID as a parameter
+    console.log(userId)
+    const advertisements = await Advertisement.find({userId}); // Filter by user ID
+    res.status(200).json(advertisements);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve advertisements" });
+  }
+};
 export const getAllAdverticements = async (req, res) => {
   try {
     const adverticement = await Advertisement.find();
@@ -64,5 +74,39 @@ export const deleteAdverticement = async (req, res) => {
     res.status(200).json({ message: "Advertisement deleted successfully" });
   } catch (error) {
     res.status(500).send("Not found");
+  }
+};
+export const approveAdverticement = async (req, res) => {
+  const { advertiseId } = req.params;
+console.log(advertiseId)
+  try {
+    // Find the advertisement by ID and update the status to true
+    const advertisement = await Advertisement.findByIdAndUpdate(
+      advertiseId,
+      { status: true },
+      { new: true }
+    );
+
+    res.json({ message: 'Advertisement approved successfully', advertisement });
+  } catch (error) {
+    console.error('Error approving advertisement:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+export const rejectAdverticement = async (req, res) => {
+  const { advertiseId } = req.params;
+console.log(advertiseId)
+  try {
+    // Find the advertisement by ID and update the status to true
+    const advertisement = await Advertisement.findByIdAndUpdate(
+      advertiseId,
+      { status: false },
+      { new: true }
+    );
+
+    res.json({ message: 'Advertisement approved successfully', advertisement });
+  } catch (error) {
+    console.error('Error approving advertisement:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
