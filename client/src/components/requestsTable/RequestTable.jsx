@@ -2,17 +2,107 @@ import "./requestTable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { userColumns, userRows } from "../../requestsource";
+import axios from "axios";
 
 const RequestTable = () => {
-  const [data, setData] = useState(userRows);
+  const [data, setData] = useState([]);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  let apiUrl = "http://localhost:8800/api/adverticements/";
+  if (currentUser.role === "user") {
+    // If the user is a regular user, filter advertisements accordingly
+    apiUrl = `http://localhost:8800/api/adverticements/user/${currentUser._id}`;
+  }
+
+  console.log(apiUrl);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(apiUrl);
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+
+    fetchData();
+  }, [apiUrl]);
+
+  const formattedData = data.map((item, index) => {
+    // Check if the date value is valid before formatting
+    // const scheduleDateTime = isValid(parseISO(item.scheduleDateTime))
+    //   ? format(parseISO(item.scheduleDateTime), "yyyy-MM-dd HH:mm:ss")
+    //   : "Invalid Date";
+
+    return {
+      id: item._id, // Manually assign a unique identifier
+      title: item.title,
+      video: item.video,
+      scheduleDate: item.scheduleDate,
+      scheduleTime: item.scheduleTime,
+      status: item.status,
+    };
+  });
+  const handleApprove = async (advertiseId) => {
+    try {
+      // Send a PUT request to your server to update the status to true
+      await axios.put(
+        `http://localhost:8800/api/adverticements/approve/${advertiseId}`
+      );
+      // After successful update, refetch the data
+      const response = await axios.get(apiUrl);
+      setData(response.data);
+    } catch (error) {
+      console.error("Error approving advertisement", error);
+    }
   };
+  const handleReject = async (advertiseId) => {
+    try {
+      // Send a PUT request to your server to update the status to false
+      await axios.put(
+        `http://localhost:8800/api/adverticements/reject/${advertiseId}`
+      );
+      // After successful update, refetch the data
+      const response = await axios.get(apiUrl);
+      setData(response.data);
+    } catch (error) {
+      console.error("Error rejecting advertisement", error);
+    }
+  };
+  const userColumns = [
+    { field: "id", headerName: "ID", width: 150 },
+    { field: "title", headerName: "Title", width: 150 },
+    { field: "video", headerName: "Video", width: 150 },
+    {
+      field: "scheduleDate",
+      headerName: "Schedule Date",
+      width: 200,
+    },
+    {
+      field: "scheduleTime",
+      headerName: "Schedule Time",
+      width: 200,
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 160,
+      renderCell: (params) => {
+        const statusText = params.row.status ? "Active" : "Inactive";
+        const statusClassName = params.row.status
+          ? "activeStatus"
+          : "inactiveStatus";
 
-  const actionColumn = [
+        return (
+          <div className={`cellWithStatus ${statusClassName}`}>
+            {statusText}
+          </div>
+        );
+      },
+    },
+
     {
       field: "action",
       headerName: "Action",
@@ -29,13 +119,24 @@ const RequestTable = () => {
             >
               Delete
             </div> */}
-            <div className="approveButton">Approve</div>
-            <div className="rejectButton">Reject</div>
+            <div
+              className="approveButton"
+              onClick={() => handleApprove(params.row.id)} // Call handleApprove with the advertisement ID
+            >
+              Approve
+            </div>
+            <div
+              className="rejectButton"
+              onClick={() => handleReject(params.row.id)} // Call handleReject with the advertisement ID
+            >
+              Reject
+            </div>
           </div>
         );
       },
     },
   ];
+
   return (
     <div className="datatable">
       <div className="datatableTitle">
@@ -46,8 +147,8 @@ const RequestTable = () => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={data}
-        columns={userColumns.concat(actionColumn)}
+        rows={formattedData}
+        columns={userColumns}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection

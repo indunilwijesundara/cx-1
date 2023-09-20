@@ -44,18 +44,16 @@ const Sidebar = () => {
     <div className="sidebar">
       {userRole === "user" ? (
         <div>
-          <div className="top"> <Link to="/" style={{ textDecoration: "none" }}>
+          <div className="top">
+            {" "}
+            <Link to="/" style={{ textDecoration: "none" }}>
               <img src="http://localhost:3000/assets/logo.png" alt="" />
             </Link>
-
-          
           </div>
           <hr />{" "}
           <div className="center">
-              <Link to="/" style={{ textDecoration: "none" }}>
-              
-                <span>Users</span>
-             
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <span>Users</span>
             </Link>
             <ul>
               <p className="title">MAIN</p>
@@ -73,24 +71,25 @@ const Sidebar = () => {
                   <span>Adverticemnets</span>
                 </li>
               </Link> */}
-                         
-                
-               <Link to="/adverticement" style={{ textDecoration: "none" }}>
+
+              <Link to="/adverticement" style={{ textDecoration: "none" }}>
                 <li>
                   <SettingsSystemDaydreamOutlinedIcon className="icon" />
                   <span>My Ads</span>
                 </li>
               </Link>
-               <li>
-                <AccountCircleOutlinedIcon className="icon" />
-                <span>Profile</span>
-              </li>
-             
-               <li>
+              <Link to={"/profile"}>
+                <li>
+                  <AccountCircleOutlinedIcon className="icon" />
+                  <span>Profile</span>
+                </li>
+              </Link>
+
+              <li>
                 <CalendarMonthIcon className="icon" />
                 <span>Contact Us</span>
               </li>
-               <li>
+              <li>
                 <CalendarMonthIcon className="icon" />
                 <span>About Us</span>
               </li>
@@ -157,11 +156,12 @@ const Sidebar = () => {
               </li> */}
 
               <p className="title">USER</p>
-              <li>
-                <AccountCircleOutlinedIcon className="icon" />
-                <span>Profile</span>
-              </li>
-             
+              <Link to={"/profile"}>
+                <li>
+                  <AccountCircleOutlinedIcon className="icon" />
+                  <span>Profile</span>
+                </li>
+              </Link>
               <Link to={"/login"} onClick={handleLogout}>
                 <li>
                   <ExitToAppIcon className="icon" />

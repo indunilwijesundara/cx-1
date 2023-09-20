@@ -10,7 +10,68 @@ import SentimentNeutralIcon from "@mui/icons-material/SentimentNeutral";
 import GroupIcon from "@mui/icons-material/Group";
 import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
 import FeaturedVideoIcon from "@mui/icons-material/FeaturedVideo";
+import { useEffect, useState } from "react";
+import axios from "axios";
 const Widget = ({ type }) => {
+  const [user, setUser] = useState([]);
+  const [adverticement, setAdverticement] = useState([]);
+  const [useradverticement, setUserAdverticement] = useState([]);
+  let apiUrl = "http://localhost:8800/api/users";
+
+  console.log(apiUrl);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(apiUrl);
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+
+    fetchData();
+  }, [apiUrl]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8800/api/adverticements/"
+        );
+        setAdverticement(response.data);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+
+    fetchData();
+  }, [apiUrl]);
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  useEffect(() => {
+    const fetchDUserAdsData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8800/api/adverticements/user/${currentUser._id}`
+        );
+        setUserAdverticement(response.data);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+
+    fetchDUserAdsData();
+  }, [apiUrl]);
+
+  const filteredApprovedAdverticement = useradverticement.filter(
+    (item) => item.status === true
+  );
+  const filteredPendingAdverticement = useradverticement.filter(
+    (item) => item.status === false
+  );
+  const filteredData =
+    currentUser.role === "admin"
+      ? adverticement.filter((item) => item.status === true)
+      : adverticement;
   let data;
 
   //temporary
@@ -22,6 +83,7 @@ const Widget = ({ type }) => {
       data = {
         title: "CUSTOMERS",
         isMoney: false,
+        counter: user.length,
         link: "See all users",
         icon: (
           <GroupIcon
@@ -38,6 +100,7 @@ const Widget = ({ type }) => {
       data = {
         title: "ADVERTISMENTS",
         isMoney: false,
+        counter: filteredData.length,
         link: "View all adverticements",
         icon: (
           <FeaturedVideoIcon
@@ -50,24 +113,46 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "netural":
-      data = {
-        title: "Requets",
-        isMoney: false,
-        link: "View net earnings",
-        icon: (
-          <SentimentNeutralIcon
-            className="icon"
-            style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
-          />
-        ),
-      };
-      break;
     case "balance":
       data = {
         title: "REQUESTS",
         isMoney: false,
         link: "See requests",
+        counter: adverticement.length,
+        icon: (
+          <ScheduleSendIcon
+            className="icon"
+            style={{
+              backgroundColor: "rgba(128, 0, 128, 0.2)",
+              color: "purple",
+            }}
+          />
+        ),
+      };
+      break;
+    case "myadsApprove":
+      data = {
+        title: "MY ACTIVATED ADVERTISMENTS",
+        isMoney: false,
+        link: "See requests",
+        counter: filteredApprovedAdverticement.length,
+        icon: (
+          <ScheduleSendIcon
+            className="icon"
+            style={{
+              backgroundColor: "rgba(128, 0, 128, 0.2)",
+              color: "purple",
+            }}
+          />
+        ),
+      };
+      break;
+    case "myadsInactive":
+      data = {
+        title: "MY INACTIVATED ADVERTISMENTS",
+        isMoney: false,
+        link: "See requests",
+        counter: filteredPendingAdverticement.length,
         icon: (
           <ScheduleSendIcon
             className="icon"
@@ -87,9 +172,7 @@ const Widget = ({ type }) => {
     <div className="widget">
       <div className="left">
         <span className="title">{data.title}</span>
-        <span className="counter">
-          {data.isMoney && "$"} {amount}
-        </span>
+        <span className="counter">{data.counter}</span>
         <span className="link">{data.link}</span>
       </div>
       <div className="right">
