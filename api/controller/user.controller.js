@@ -4,9 +4,7 @@ import createError from "../utils/createError.js";
 export const deleteUser = async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
-  if (req.userId !== user._id.toString()) {
-    return next(createError(403, "You can delete only your account!"));
-  }
+ 
   await User.findByIdAndDelete(req.params.id);
   res.status(200).send("deleted.");
 };
@@ -20,6 +18,7 @@ export const getUsersWithUserRole = async (req, res) => {
     // Find users where the role is 'user'
     const users = await User.find({ role: 'user' });
     res.json(users);
+    
   } catch (error) {
     console.error('Error fetching users with role "user"', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -38,5 +37,15 @@ export const getUserById = async (req, res) => {
   } catch (error) {
     console.error('Error fetching user by ID', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+};
+export const getUserCount = async (req, res) => {
+  try {
+    const userCount = await User.countDocuments();
+    console.log(userCount)
+    res.json({ count: userCount });
+  } catch (error) {
+    console.error("Error fetching user count", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };

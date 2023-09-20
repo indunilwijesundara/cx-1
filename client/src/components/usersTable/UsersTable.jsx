@@ -34,11 +34,10 @@ const UsersTable = () => {
       email: item.email,
     };
   });
-  const handleDelete = async (advertiseId) => {
+  const handleDelete = async (id) => {
+    console.log(id);
     try {
-      await axios.delete(
-        `http://localhost:8800/api/adverticements/${advertiseId}`
-      );
+      await axios.delete(`http://localhost:8800/api/users/${id}`);
       // After successful deletion, refetch the data
       const response = await axios.get(apiUrl);
       setData(response.data);
@@ -47,9 +46,22 @@ const UsersTable = () => {
     }
   };
   const userColumns = [
-    { field: "id", headerName: "ID", width: 150 },
-    { field: "username", headerName: "User Name", width: 150 },
-    { field: "email", headerName: "Email", width: 150 },
+    { field: "id", headerName: "ID", width: 200 },
+    {
+      field: "username",
+      headerName: "User",
+      width: 230,
+      renderCell: (params) => {
+        return (
+          <div className="cellWithImg">
+            <img className="cellImg" src={params.row.img} />
+            {params.row.username}
+          </div>
+        );
+      },
+    },
+
+    { field: "email", headerName: "Email", width: 250 },
 
     {
       field: "action",
@@ -64,12 +76,7 @@ const UsersTable = () => {
             >
               <div className="viewButton">View</div>
             </Link>
-            <Link
-              to={`/users/editads/${params.row.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <div className="editButton">Edit</div>
-            </Link>
+
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}

@@ -21,15 +21,12 @@
       .left {
         flex: 1;
         text-align: center;
-display: flex;
-justify-content: center;
-align-items: center;
+
         img {
           width: 100px;
           height: 100px;
-          border-radius:0%;
+          border-radius: 50%;
           object-fit: cover;
-         
         }
       }
 
@@ -62,22 +59,17 @@ align-items: center;
               border-bottom: 1px solid gray;
             }
           }
-          .formInputButton{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            button {
-              width: 150px;
-              padding: 10px;
-              border: none;
-              background-color: teal;
-              color: white;
-              font-weight: bold;
-              cursor: pointer;
-              margin-top: 10px;
-            }
+
+          button {
+            width: 150px;
+            padding: 10px;
+            border: none;
+            background-color: teal;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
           }
-        
         }
       }
     }

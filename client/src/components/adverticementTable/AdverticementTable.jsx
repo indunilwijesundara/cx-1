@@ -26,7 +26,6 @@ const AdverticementTable = () => {
         console.error("Error fetching data", error);
       }
     };
-
     fetchData();
   }, [apiUrl]);
 
@@ -59,6 +58,11 @@ const AdverticementTable = () => {
       console.error("Error deleting advertisement", error);
     }
   };
+  const filteredData =
+    currentUser.role === "admin"
+      ? formattedData.filter((item) => item.status === true)
+      : formattedData;
+
   const userColumns = [
     { field: "id", headerName: "ID", width: 250 },
     { field: "title", headerName: "Title", width: 100 },
@@ -98,7 +102,7 @@ const AdverticementTable = () => {
         const statusText = params.row.status ? "Active" : "Pending";
         const statusClassName = params.row.status
           ? "activeStatus"
-          : "pendingStatus";
+          : "inactiveStatus";
 
         return (
           <div className={`cellWithStatus ${statusClassName}`}>
@@ -149,7 +153,7 @@ const AdverticementTable = () => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={formattedData}
+        rows={filteredData}
         columns={userColumns}
         pageSize={9}
         rowsPerPageOptions={[9]}

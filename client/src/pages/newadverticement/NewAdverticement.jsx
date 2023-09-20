@@ -155,19 +155,20 @@ const NewAdverticement = () => {
                   <span className="error">{errors.scheduleTime}</span>
                 )}
               </div>
-              {uploadProgress > 0 && (
+
+              {/* {uploadProgress > 0 && (
                 <div className="upload-progress">
                   Uploading: {uploadProgress}% completed
                 </div>
-              )}
+              )} */}
               {uploading ? (
-                <div className="formInput">
+                <div className="formInputButton">
                   <div>
                     <CircularProgress size={34} thickness={5} />
                   </div>
                 </div>
               ) : (
-                <div className="formInput">
+                <div className="formInputButton">
                   <button type="submit">
                     {uploading ? "Uploading..." : "Send"}
                   </button>

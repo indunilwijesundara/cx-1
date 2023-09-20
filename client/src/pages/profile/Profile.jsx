@@ -1,4 +1,4 @@
-import "./singleUser.scss";
+import "./profile.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
@@ -7,17 +7,21 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const SingleUser = () => {
+const Profile = () => {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // Add a loading state
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  let apiUrl = "http://localhost:8800/api/users/64ff40bd340b0596c1d82267";
+  if (currentUser.role === "user") {
+    // If the user is a regular user, filter advertisements accordingly
+    apiUrl = `http://localhost:8800/api/users/${currentUser._id}`;
+  }
 
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8800/api/users/${userId}`
-        );
+        const response = await axios.get(apiUrl);
         setUser(response.data);
         setLoading(false); // Data has been fetched, so set loading to false
       } catch (error) {
@@ -94,4 +98,4 @@ const SingleUser = () => {
   );
 };
 
-export default SingleUser;
+export default Profile;
