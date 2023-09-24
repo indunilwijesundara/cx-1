@@ -68,6 +68,9 @@ const Widget = ({ type }) => {
   const filteredPendingAdverticement = useradverticement.filter(
     (item) => item.status === false
   );
+    const filteredPendingAllAdverticement = adverticement.filter(
+    (item) => item.status === false
+  );
   const filteredData =
     currentUser.role === "admin"
       ? adverticement.filter((item) => item.status === true)
@@ -118,7 +121,7 @@ const Widget = ({ type }) => {
         title: "REQUESTS",
         isMoney: false,
         link: "See requests",
-        counter: adverticement.length,
+        counter: filteredPendingAllAdverticement.length,
         icon: (
           <ScheduleSendIcon
             className="icon"
