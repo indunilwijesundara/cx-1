@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import "./login.css";
+import "./login.scss";
 import { Link, useHistory, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../../AuthContext";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ export default function Login() {
     // Return true if there are no errors
     return Object.values(errors).every((error) => !error);
   };
-
+  const { login } = useAuth();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,10 +59,11 @@ export default function Login() {
           "http://localhost:8800/api/auth/login",
           formData
         );
-        navigate("/");
-        localStorage.setItem("currentUser", JSON.stringify(response.data));
+        login(response.data); // Use the login function to set the currentUser
+
+        navigate("/"); // Redirect to the desired page
+        window.location.reload();
         console.log("Login successful:", response.data);
-        
       } catch (error) {
         console.error("Login error:", error.response.data);
         setErrorMessage("Invalid username or password"); // Set error message
@@ -74,16 +76,22 @@ export default function Login() {
   return (
     <div className="login">
       <div className="loginWrapper">
-        
-        <img src="http://localhost:3000/assets/logo.png" class="coverlogo" alt="Login cover image">
-</img>
-<div className="tagline">
-  Unlocking insights empowering experience
-</div>
+        {" "}
+        <div className="loginLeft">
+          <img
+            src="http://localhost:3000/assets/logo.png"
+            class="coverlogo"
+            alt="Login cover image"
+          ></img>
+          <div className="tagline">
+            Unlocking insights empowering experience
+          </div>
+        </div>
         <div className="loginBox">
-          <div className="loginLeft">
+          <div className="loginRight">
             <h3 className="loginLogo">Login</h3>
-            {errorMessage && <div className="error">{errorMessage}</div>} {/* Display error message */}
+            {errorMessage && <div className="error">{errorMessage}</div>}{" "}
+            {/* Display error message */}
             <form onSubmit={handleSubmit}>
               <label>User Name</label>
               <input
@@ -111,7 +119,11 @@ export default function Login() {
                 <div className="error">{formErrors.password}</div>
               )}
 
-              <button type="submit" className="loginButton" disabled={isLoading}>
+              <button
+                type="submit"
+                className="loginButton"
+                disabled={isLoading}
+              >
                 {isLoading ? "Logging In..." : "Log In"}
               </button>
             </form>

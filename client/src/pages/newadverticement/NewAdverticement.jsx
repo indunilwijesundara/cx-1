@@ -35,6 +35,9 @@ const NewAdverticement = () => {
     if (!formData.title) {
       newErrors.title = "Title is required";
     }
+    if (!formData.video) {
+      newErrors.video = "Title is required";
+    }
 
     if (!formData.scheduleDate) {
       newErrors.scheduleDate = "Schedule Date is required";
@@ -68,7 +71,6 @@ const NewAdverticement = () => {
 
       await axios.post("http://localhost:8800/api/adverticements/", {
         ...formData,
-        video: url,
         userId: currentUser._id,
       });
       navigate("/adverticement");
@@ -97,8 +99,13 @@ const NewAdverticement = () => {
         </div>
         <div className="bottom">
           <div className="left">
-            {file ? (
-              <ReactPlayer height={300} width={400} url={""} controls={true} />
+            {formData.video ? (
+              <ReactPlayer
+                height={300}
+                width={400}
+                url={formData.video}
+                controls={true}
+              />
             ) : (
               <img
                 src="https://icon-library.com/images/upload_video_162306_9899.png"
@@ -108,7 +115,7 @@ const NewAdverticement = () => {
           </div>
           <div className="right">
             <form onSubmit={handleSubmit}>
-              <div className="formInput">
+              {/* <div className="formInput">
                 <label htmlFor="file">
                   Video: <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
@@ -117,6 +124,17 @@ const NewAdverticement = () => {
                   id="file"
                   onChange={(e) => setFile(e.target.files[0])}
                 />
+              </div> */}
+              <div className="formInput">
+                <label>Video Link</label>
+                <input
+                  type="text"
+                  name="video"
+                  placeholder="Enter"
+                  value={formData.video}
+                  onChange={handleChange}
+                />
+                {errors.video && <span className="error">{errors.video}</span>}
               </div>
               <div className="formInput">
                 <label>Title</label>
@@ -161,19 +179,21 @@ const NewAdverticement = () => {
                   Uploading: {uploadProgress}% completed
                 </div>
               )} */}
-              {uploading ? (
-                <div className="formInputButton">
-                  <div>
-                    <CircularProgress size={34} thickness={5} />
+              <div className="formInput">
+                {uploading ? (
+                  <div className="formInputButton">
+                    <div>
+                      <CircularProgress size={34} thickness={5} />
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div className="formInputButton">
-                  <button type="submit">
-                    {uploading ? "Uploading..." : "Send"}
-                  </button>
-                </div>
-              )}
+                ) : (
+                  <div className="formInputButton">
+                    <button type="submit">
+                      {uploading ? "Uploading..." : "Send"}
+                    </button>
+                  </div>
+                )}
+              </div>
             </form>
           </div>
         </div>

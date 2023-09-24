@@ -77,6 +77,7 @@ export default function Register() {
         );
         console.log("Registration successful:", response.data);
         navigate("/login");
+        window.location.reload();
       } catch (error) {
         console.error("Registration error:", error.response.data);
         setErrorMessage("Registration failed. Please try again."); // Set error message
@@ -92,7 +93,8 @@ export default function Register() {
         <div className="regbox">
           <div className="reg-left">
             <h3>Register Your Account</h3>
-            {errorMessage && <div className="error">{errorMessage}</div>} {/* Display error message */}
+            {errorMessage && <div className="error">{errorMessage}</div>}{" "}
+            {/* Display error message */}
             <form onSubmit={handleSubmit}>
               <label>User Name</label>
               <input

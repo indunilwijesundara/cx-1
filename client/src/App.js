@@ -18,18 +18,17 @@ import EditAdverticement from "./pages/editadverticement/EditAdverticement";
 import SingleUser from "./pages/singleUser/SingleUser";
 import EditUser from "./pages/editUser/EditUser";
 import Profile from "./pages/profile/Profile";
-import { AuthProvider, useAuth } from "./AuthContext";
+import { useAuth } from "./AuthContext";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
   const { currentUser, login, logout } = useAuth();
-
   return (
-    <AuthProvider>
-    <div className={darkMode ? "app dark" : "app"}>
+   
+    <div className="app">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={currentUser ? <Home /> : <Login></Login>} />
+          <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/users" element={<Users />} />
@@ -62,7 +61,7 @@ function App() {
           {/* <Route path="users" element={<YourComponentHere />} /> */}
         </Routes>
       </BrowserRouter>
-    </div></AuthProvider>
+    </div>
   );
 }
 

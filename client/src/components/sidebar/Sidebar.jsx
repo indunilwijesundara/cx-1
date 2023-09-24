@@ -36,6 +36,7 @@ const Sidebar = () => {
       await axios.post("http://localhost:8800/api/auth/logout");
       localStorage.setItem("currentUser", null);
       navigate("/login");
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
