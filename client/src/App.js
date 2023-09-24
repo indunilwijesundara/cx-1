@@ -18,11 +18,14 @@ import EditAdverticement from "./pages/editadverticement/EditAdverticement";
 import SingleUser from "./pages/singleUser/SingleUser";
 import EditUser from "./pages/editUser/EditUser";
 import Profile from "./pages/profile/Profile";
+import { AuthProvider, useAuth } from "./AuthContext";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const { currentUser, login, logout } = useAuth();
+
   return (
+    <AuthProvider>
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
         <Routes>
@@ -59,7 +62,7 @@ function App() {
           {/* <Route path="users" element={<YourComponentHere />} /> */}
         </Routes>
       </BrowserRouter>
-    </div>
+    </div></AuthProvider>
   );
 }
 
