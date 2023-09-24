@@ -74,11 +74,12 @@ export default function Login() {
   return (
     <div className="login">
       <div className="loginWrapper">
-        <img
-          src=""
-          className="coverlogo"
-          alt="Login cover image"
-        ></img>
+        
+        <img src="http://localhost:3000/assets/logo.png" class="coverlogo" alt="Login cover image">
+</img>
+<div className="tagline">
+  Unlocking insights empowering experience
+</div>
         <div className="loginBox">
           <div className="loginLeft">
             <h3 className="loginLogo">Login</h3>
