@@ -6,6 +6,7 @@ import Featured from "../../components/featured/Featured";
 import Chart from "../../components/chart/Chart";
 import Table from "../../components/table/Table";
 import { useEffect, useState } from "react";
+import ReactionTable from "../../components/reactionTable/ReactionTable";
 
 const Home = () => {
   const [userRole, setUserRole] = useState("");
@@ -32,11 +33,15 @@ const Home = () => {
               <Widget type="user" />
             </div>
           ) : (
+            <div className="widgets-admin">
             <div className="widgets-wrapper">
               <Widget type="user" />
-              <Widget type="order" />
-
+              <Widget type="order" />      
               <Widget type="balance" />
+              <Widget type="history"/>
+             
+            </div>
+             <ReactionTable></ReactionTable>
             </div>
           )}
         </div>

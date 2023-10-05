@@ -10,6 +10,7 @@ import SentimentNeutralIcon from "@mui/icons-material/SentimentNeutral";
 import GroupIcon from "@mui/icons-material/Group";
 import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
 import FeaturedVideoIcon from "@mui/icons-material/FeaturedVideo";
+import AddReactionIcon from '@mui/icons-material/AddReaction';
 import { useEffect, useState } from "react";
 import axios from "axios";
 const Widget = ({ type }) => {
@@ -115,6 +116,22 @@ const Widget = ({ type }) => {
           />
         ),
       };
+      break;
+      case "history":
+        data = {
+          // title: "REACTIONS",
+          // isMoney:false,
+           icon: (
+          <AddReactionIcon
+            // className="icon"
+            style={{
+              // backgroundColor: "hsl(128, 98%, 84%)",
+              // color: "green",
+            }}
+          />
+        ),
+        };
+
       break;
     case "balance":
       data = {

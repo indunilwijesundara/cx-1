@@ -52,8 +52,8 @@
     flex-direction: column;
   }
   .reg-right {
-    background-color: green;
-    background-image: url('background.jpg');
+    background-color: rgb(134, 246, 248);
+    background-image: url('');
     background-size: cover;
     /* This will cover the entire element with the image */
     background-repeat: no-repeat;

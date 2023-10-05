@@ -57,7 +57,7 @@ const SingleUser = () => {
             <div className="editButton">Edit</div>
             <h1 className="title">Information</h1>
             <div className="item">
-              <img src={user.img} alt="" className="itemImg" />
+              {/* <img src={user.img} alt="" className="itemImg" /> */}
               <div className="details">
                 <h1 className="itemTitle">{user.username}</h1>
                 <div className="detailItem">
