@@ -88,7 +88,7 @@ const Widget = ({ type }) => {
         title: "CUSTOMERS",
         isMoney: false,
         counter: user.length,
-        link: "See all users",
+        // link: "See all users",
         icon: (
           <GroupIcon
             className="icon"
@@ -105,7 +105,7 @@ const Widget = ({ type }) => {
         title: "ADVERTISMENTS",
         isMoney: false,
         counter: filteredData.length,
-        link: "View all adverticements",
+        // link: "View all adverticements",
         icon: (
           <FeaturedVideoIcon
             className="icon"
@@ -137,7 +137,7 @@ const Widget = ({ type }) => {
       data = {
         title: "REQUESTS",
         isMoney: false,
-        link: "See requests",
+        // link: "See requests",
         counter: filteredPendingAllAdverticement.length,
         icon: (
           <ScheduleSendIcon
@@ -154,7 +154,7 @@ const Widget = ({ type }) => {
       data = {
         title: "MY ACTIVATED ADVERTISMENTS",
         isMoney: false,
-        link: "See requests",
+        // link: "See requests",
         counter: filteredApprovedAdverticement.length,
         icon: (
           <ScheduleSendIcon
@@ -171,7 +171,7 @@ const Widget = ({ type }) => {
       data = {
         title: "MY INACTIVATED ADVERTISMENTS",
         isMoney: false,
-        link: "See requests",
+        // link: "See requests",
         counter: filteredPendingAdverticement.length,
         icon: (
           <ScheduleSendIcon

@@ -78,21 +78,23 @@ const Adverticement = () => {
             <p>{advertisement.scheduleTime}</p>
             <p>{advertisement.status}</p>
             <h3 className="t">Feedback</h3>
-  <ul>
+            <ul>
               {feedback.map((item) => (
                 <p key={item._id}>
-                  <p>Angry: {item.feedback.Angry}</p>
+                 
+                  <p>Happy: {item.feedback.Happy}</p>                  
                   <p>Sad: {item.feedback.Sad}</p>
-                  <p>Happy: {item.feedback.Happy}</p>
+                   <p>Angry: {item.feedback.Angry}</p>
+                  <p>Disgust: {item.feedback.Disgust}</p>
+                  <p>Fear: {item.feedback.Fear}</p>
+                  <p>Neutral: {item.feedback.Neutral}</p>
+                  <p>Surprise: {item.feedback.Surprise}</p>
                 </p>
               ))}
             </ul>
           </div>
         </div>
-        {/* <div className="bottom">
-          <h1 className="title">Last Transactions</h1>
-          <List />
-        </div> */}
+       
       </div>
     </div>
   );

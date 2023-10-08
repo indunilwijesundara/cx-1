@@ -126,7 +126,7 @@ const Sidebar = () => {
               <Link to="/adverticement" style={{ textDecoration: "none" }}>
                 <li>
                   <SettingsSystemDaydreamOutlinedIcon className="icon" />
-                  <span>Adverticements</span>
+                  <span>Advertisements</span>
                 </li>
               </Link>
               <Link to="/users" style={{ textDecoration: "none" }}>
