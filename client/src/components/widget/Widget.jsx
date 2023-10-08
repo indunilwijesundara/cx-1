@@ -10,6 +10,7 @@ import SentimentNeutralIcon from "@mui/icons-material/SentimentNeutral";
 import GroupIcon from "@mui/icons-material/Group";
 import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
 import FeaturedVideoIcon from "@mui/icons-material/FeaturedVideo";
+import AddReactionIcon from '@mui/icons-material/AddReaction';
 import { useEffect, useState } from "react";
 import axios from "axios";
 const Widget = ({ type }) => {
@@ -87,7 +88,7 @@ const Widget = ({ type }) => {
         title: "CUSTOMERS",
         isMoney: false,
         counter: user.length,
-        link: "See all users",
+        // link: "See all users",
         icon: (
           <GroupIcon
             className="icon"
@@ -104,7 +105,7 @@ const Widget = ({ type }) => {
         title: "ADVERTISMENTS",
         isMoney: false,
         counter: filteredData.length,
-        link: "View all adverticements",
+        // link: "View all adverticements",
         icon: (
           <FeaturedVideoIcon
             className="icon"
@@ -116,11 +117,27 @@ const Widget = ({ type }) => {
         ),
       };
       break;
+      case "history":
+        data = {
+          // title: "REACTIONS",
+          // isMoney:false,
+           icon: (
+          <AddReactionIcon
+            // className="icon"
+            style={{
+              // backgroundColor: "hsl(128, 98%, 84%)",
+              // color: "green",
+            }}
+          />
+        ),
+        };
+
+      break;
     case "balance":
       data = {
         title: "REQUESTS",
         isMoney: false,
-        link: "See requests",
+        // link: "See requests",
         counter: filteredPendingAllAdverticement.length,
         icon: (
           <ScheduleSendIcon
@@ -137,7 +154,7 @@ const Widget = ({ type }) => {
       data = {
         title: "MY ACTIVATED ADVERTISMENTS",
         isMoney: false,
-        link: "See requests",
+        // link: "See requests",
         counter: filteredApprovedAdverticement.length,
         icon: (
           <ScheduleSendIcon
@@ -154,7 +171,7 @@ const Widget = ({ type }) => {
       data = {
         title: "MY INACTIVATED ADVERTISMENTS",
         isMoney: false,
-        link: "See requests",
+        // link: "See requests",
         counter: filteredPendingAdverticement.length,
         icon: (
           <ScheduleSendIcon

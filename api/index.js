@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import userRoute from "./routes/user.route.js";
 import adsRoute from "./routes/adverticement.route.js";
+import feedbackRoute from "./routes/feedback.route.js";
 
 import authRoute from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
@@ -31,6 +32,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/adverticements", adsRoute);
+app.use("/api/feedbacks", feedbackRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

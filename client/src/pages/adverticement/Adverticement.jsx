@@ -10,6 +10,7 @@ import axios from "axios";
 const Adverticement = () => {
   const { adverticementId } = useParams();
   const [advertisement, setAdvertisement] = useState(null);
+  const [feedback, setFeedback] = useState([]);
   const [loading, setLoading] = useState(true); // Add a loading state
 
   useEffect(() => {
@@ -25,9 +26,24 @@ const Adverticement = () => {
         console.error("Error fetching advertisement details", error);
       }
     };
+     // Fetch advertisement details using the ID
+    const fetchFeedbackDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8800/api/feedbacks/adverticement/${adverticementId}`
+        );
+        setFeedback(response.data);
+        console.log(response.data)
+        setLoading(false); // Data has been fetched, so set loading to false
+      } catch (error) {
+        console.error("Error fetching advertisement details", error);
+      }
+    };
 
     fetchAdvertisementDetails();
+    fetchFeedbackDetails()
   }, [adverticementId]);
+
 
   // Add conditional rendering for when data is loading or not available
   if (loading) {
@@ -55,15 +71,30 @@ const Adverticement = () => {
           <div className="right">
             <h3>Adverticement Details</h3>
             <p>{advertisement.title}</p>
-            <p>{advertisement.scheduleDate}</p>
+           
+            <p>{ advertisement.scheduleDate
+        ? new Date(advertisement.scheduleDate).toISOString().split("T")[0]
+        : ""}</p>
             <p>{advertisement.scheduleTime}</p>
             <p>{advertisement.status}</p>
+            <h3 className="t">Feedback</h3>
+            <ul>
+              {feedback.map((item) => (
+                <p key={item._id}>
+                 
+                  <p>Happy: {item.feedback.Happy}</p>                  
+                  <p>Sad: {item.feedback.Sad}</p>
+                   <p>Angry: {item.feedback.Angry}</p>
+                  <p>Disgust: {item.feedback.Disgust}</p>
+                  <p>Fear: {item.feedback.Fear}</p>
+                  <p>Neutral: {item.feedback.Neutral}</p>
+                  <p>Surprise: {item.feedback.Surprise}</p>
+                </p>
+              ))}
+            </ul>
           </div>
         </div>
-        {/* <div className="bottom">
-          <h1 className="title">Last Transactions</h1>
-          <List />
-        </div> */}
+       
       </div>
     </div>
   );

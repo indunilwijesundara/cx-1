@@ -79,22 +79,22 @@ const Sidebar = () => {
                   <span>My Ads</span>
                 </li>
               </Link>
-              <Link to={"/profile"}>
+              <Link to="/profile" style={{ textDecoration:"none"}}>
                 <li>
                   <AccountCircleOutlinedIcon className="icon" />
                   <span>Profile</span>
                 </li>
               </Link>
 
-              <li>
+              {/* <li>
                 <CalendarMonthIcon className="icon" />
                 <span>Contact Us</span>
               </li>
               <li>
                 <CalendarMonthIcon className="icon" />
                 <span>About Us</span>
-              </li>
-              <Link to={"/login"} onClick={handleLogout}>
+              </li> */}
+              <Link to="/login" style={{textDecoration:"none"}} onClick={handleLogout}>
                 <li>
                   <ExitToAppIcon className="icon" />
                   <span>Logout</span>
@@ -126,7 +126,7 @@ const Sidebar = () => {
               <Link to="/adverticement" style={{ textDecoration: "none" }}>
                 <li>
                   <SettingsSystemDaydreamOutlinedIcon className="icon" />
-                  <span>Adverticements</span>
+                  <span>Advertisements</span>
                 </li>
               </Link>
               <Link to="/users" style={{ textDecoration: "none" }}>
@@ -142,28 +142,15 @@ const Sidebar = () => {
                   <span>Request</span>
                 </li>
               </Link>
-              {/* <li>
-                <CalendarMonthIcon className="icon" />
-                <span>Schedule</span>
-              </li> */}
-              {/* <p className="title">USEFUL</p>
-              <li>
-                <InsertChartIcon className="icon" />
-                <span>Stats</span>
-              </li>
-              <li>
-                <NotificationsNoneIcon className="icon" />
-                <span>Notifications</span>
-              </li> */}
-
+             
               <p className="title">USER</p>
-              <Link to={"/profile"}>
+              <Link to="/profile" style={{ textDecoration: "none" }}>
                 <li>
                   <AccountCircleOutlinedIcon className="icon" />
                   <span>Profile</span>
                 </li>
               </Link>
-              <Link to={"/login"} onClick={handleLogout}>
+              <Link to="/login" style={{ textDecoration: "none" }} onClick={handleLogout}>
                 <li>
                   <ExitToAppIcon className="icon" />
                   <span>Logout</span>
