@@ -3,7 +3,7 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 
 import New from "./pages/new/New";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
@@ -23,12 +23,18 @@ import { useAuth } from "./AuthContext";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
   const { currentUser, login, logout } = useAuth();
+  console.log(currentUser)
   return (
    
     <div className="app">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+           {/* Redirect to login page if not logged in */}
+           {currentUser ? (
+            <Route path="/" element={<Home />} />
+          ) : (
+            <Route path="/login" element={<Login></Login>} />
+          )}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/users" element={<Users />} />
