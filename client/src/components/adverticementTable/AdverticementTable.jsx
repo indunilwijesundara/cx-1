@@ -30,22 +30,20 @@ const AdverticementTable = () => {
   }, [apiUrl]);
 
   const formattedData = data.map((item, index) => {
-    // Check if the date value is valid before formatting
-    // const scheduleDateTime = isValid(parseISO(item.scheduleDateTime))
-    //   ? format(parseISO(item.scheduleDateTime), "yyyy-MM-dd HH:mm:ss")
-    //   : "Invalid Date";
+    const createdAt = new Date(item.scheduleDateTime);
+    const date = format(createdAt, "yyyy-MM-dd");
+    const time = format(createdAt, "HH:mm:ss");
 
     return {
       id: item._id, // Manually assign a unique identifier
       title: item.title,
       video: item.video,
-      scheduleDate: item.scheduleDate
-        ? new Date(item.scheduleDate).toISOString().split("T")[0]
-        : "",
-      scheduleTime: item.scheduleTime,
+      date,
+      time,
       status: item.status,
     };
   });
+
   const handleDelete = async (advertiseId) => {
     try {
       await axios.delete(
@@ -85,12 +83,12 @@ const AdverticementTable = () => {
       },
     },
     {
-      field: "scheduleDate",
+      field: "date",
       headerName: "Schedule Date",
       width: 200,
     },
     {
-      field: "scheduleTime",
+      field: "time",
       headerName: "Schedule Time",
       width: 150,
     },

@@ -1,13 +1,19 @@
 import Advertisement from "../models/adverticement.model.js";
 
 export const createAdverticement = async (req, res) => {
-  //   const { userId, title, video, scheduleDateTime } = req.body;
-
   try {
+    // Extract the scheduleDate and scheduleTime from the request body
+    const { scheduleDate, scheduleTime, ...restOfData } = req.body;
+
+    // Combine scheduleDate and scheduleTime to create a valid Date object
+    const scheduleDateTime = new Date(`${scheduleDate}T${scheduleTime}`);
+
+    // Create a new Advertisement document with the combined scheduleDateTime
     const newAdvertisement = new Advertisement({
-      ...req.body,
+      ...restOfData, 
+      scheduleDateTime: scheduleDateTime, // Assign the constructed Date object
     });
-    console.log(newAdvertisement);
+
     const savedAdvertisement = await newAdvertisement.save();
     res.status(201).json(savedAdvertisement);
   } catch (error) {

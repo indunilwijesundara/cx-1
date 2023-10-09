@@ -1,55 +1,40 @@
-import "./reactionTable.scss";
-
+import "./adverticementTable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { userColumns, userRows } from "../../userssource";
 import axios from "axios";
 import ReactPlayer from "react-player";
-import { format } from "date-fns";
+import { format } from "date-fns"; // Import format function
 
-const ReactionTable = () => {
+const FeedBackTable = () => {
   const [data, setData] = useState([]);
-
+  const { adverticementId } = useParams();
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  const [advertisements, setAdvertisements] = useState(null);
+  const [advertisement, setAdvertisement] = useState(null);
   useEffect(() => {
+    const fetchAdvertisementDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8800/api/adverticements/${adverticementId}`
+        );
+        setAdvertisement(response.data);
+      } catch (error) {
+        console.error("Error fetching advertisement details", error);
+      }
+    };
     const fetchFeedbackDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8800/api/feedbacks`);
+        const response = await axios.get(
+          `http://localhost:8800/api/feedbacks/adverticement/${adverticementId}`
+        );
         setData(response.data);
       } catch (error) {
         console.error("Error fetching feedback details", error);
       }
     };
-
     fetchFeedbackDetails();
-  }, []);
+  }, [adverticementId]);
 
-  useEffect(() => {
-    // Fetch advertisement details for each feedback item
-    const fetchAdvertisementDetails = async () => {
-      const advertisementDetails = {};
-
-      for (const feedbackItem of data) {
-        if (feedbackItem.advertisement) {
-          try {
-            const response = await axios.get(
-              `http://localhost:8800/api/adverticements/${feedbackItem.advertisement}`
-            );
-            advertisementDetails[feedbackItem._id] = response.data.title;
-          } catch (error) {
-            console.error("Error fetching advertisement details", error);
-          }
-        }
-      }
-
-      setAdvertisements(advertisementDetails);
-    };
-
-    fetchAdvertisementDetails();
-  }, [data]);
   const formattedData = data.map((item, index) => {
     const createdAt = new Date(item.createdAt);
     const date = format(createdAt, "yyyy-MM-dd");
@@ -57,7 +42,7 @@ const ReactionTable = () => {
 
     return {
       id: index + 1,
-      title: advertisements[item._id] || "N/A", // Use the stored advertisement title or "N/A" if not available
+
       anger: item.emotion_counts.anger,
       contempt: item.emotion_counts.contempt,
       disgust: item.emotion_counts.disgust,
@@ -72,7 +57,7 @@ const ReactionTable = () => {
 
   const userColumns = [
     { field: "id", headerName: "ID", width: 50 },
-    { field: "title", headerName: "Title", width: 100 },
+
     { field: "anger", headerName: "Anger", width: 100 },
     { field: "contempt", headerName: "Contempt", width: 100 },
     { field: "disgust", headerName: "Disgust", width: 100 },
@@ -83,26 +68,9 @@ const ReactionTable = () => {
     { field: "date", headerName: "Date", width: 150 }, // Date column
     { field: "time", headerName: "Time", width: 100 }, // Time column
   ];
-  const handleDelete = async (id) => {
-    console.log(id);
-    try {
-      await axios.delete(`http://localhost:8800/api/users/${id}`);
-      // After successful deletion, refetch the data
-      // const response = await axios.get(apiUrl);
-      // setData(response.data);
-    } catch (error) {
-      console.error("Error deleting advertisement", error);
-    }
-  };
-
   return (
     <div className="datatable">
-      <div className="datatableTitle">
-        Reactions History
-        {/* <Link to="/users/new" className="link">
-          Add New
-        </Link> */}
-      </div>
+      <div className="datatableTitle">Feedbacks Details</div>
       <DataGrid
         className="datagrid"
         rows={formattedData}
@@ -114,4 +82,4 @@ const ReactionTable = () => {
   );
 };
 
-export default ReactionTable;
+export default FeedBackTable;

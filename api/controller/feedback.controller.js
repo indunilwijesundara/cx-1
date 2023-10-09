@@ -36,9 +36,15 @@ export const getAdvertisementAllFeedbacks = async (req, res) => {
   try {
     const { advertismentId } = req.params;
     console.log(advertismentId);
-    const feedbacks = await Feedback.find({ advertismentId });
+    console.log(advertismentId)
+    // Find feedbacks based on the provided advertismentId
+    const feedbacks = await Feedback.find({ advertisement: advertismentId });
+
+    // Respond with the found feedbacks
     res.status(200).json(feedbacks);
   } catch (error) {
+    // Handle errors
+    console.error("Error retrieving feedbacks:", error);
     res.status(500).json({ error: "Failed to retrieve feedbacks" });
   }
 };

@@ -34,14 +34,12 @@ const Home = () => {
             </div>
           ) : (
             <div className="widgets-admin">
-            <div className="widgets-wrapper">
-              <Widget type="user" />
-              <Widget type="order" />      
-              <Widget type="balance" />
-              <Widget type="history"/>
-             
-            </div>
-             <ReactionTable></ReactionTable>
+              <div className="widgets-wrapper">
+                <Widget type="user" />
+                <Widget type="order" />
+                <Widget type="balance" />
+              </div>
+              <ReactionTable></ReactionTable>
             </div>
           )}
         </div>

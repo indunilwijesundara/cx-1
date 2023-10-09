@@ -3,37 +3,25 @@ const { Schema } = mongoose;
 
 const feedbackSchema = new Schema(
   {
-    userId: {
-      type: String,
-      required: true,
+    emotion_counts: {
+    type:{
+      anger: Number,
+      contempt: Number,
+      disgust: Number,
+      fear: Number,
+      happy: Number,
+      neutral: Number,
+      sad: Number,
+      surprise: Number
+    }
     },
-    advertismentId: {
-      type: String,
-      required: true,
-    },
-    feedback: {
-      type: {
-        Happy: Number,
-        Sad: Number,
-        Angry: Number,
-        Disgust: Number,
-        Fear: Number,
-        Neutral: Number,
-        Surprise: Number,
-      },
-      default: {
-        Happy: 0,
-        Sad: 0,
-        Angry: 0,
-        Disgust: 0,
-        Fear: 0,
-        Neutral: 0,
-        Surprise: 0,
-      },
-    },
+    advertisement: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Advertisement' // Reference to the Advertisement model
+    }
   },
   {
-    timesTamps: true,
+    timestamps: true, // Corrected from 'timesTamps' to 'timestamps'
   }
 );
 export default mongoose.model("Feedbacks", feedbackSchema);
