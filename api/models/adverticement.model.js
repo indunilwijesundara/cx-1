@@ -15,14 +15,11 @@ const adverticementSchema = new Schema(
       type: String,
       required: true,
     },
-    scheduleDate: {
+    scheduleDateTime: {
       type: Date,
       required: true,
     },
-    scheduleTime: {
-      type: String,
-      required: true,
-    },
+   
     status: {
       type: Boolean,
       default: false,
