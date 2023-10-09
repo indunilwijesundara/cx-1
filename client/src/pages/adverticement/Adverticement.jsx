@@ -13,6 +13,8 @@ const Adverticement = () => {
   const [feedback, setFeedback] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  console.log(adverticementId);
   // Define the emotion categories you want as columns
   const emotionCategories = [
     "Happy",
@@ -41,7 +43,7 @@ const Adverticement = () => {
     const fetchFeedbackDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8800/api/feedbacks/adverticement/${adverticementId}`
+          `http://localhost:8800/api/emotions/${adverticementId}`
         );
         setFeedback(response.data);
         setLoading(false);
@@ -96,7 +98,7 @@ const Adverticement = () => {
             <p>{advertisement.status}</p>
           </div>
         </div>
-        <FeedBackTable></FeedBackTable>
+        <FeedBackTable advertisementId={adverticementId} />
       </div>
     </div>
   );

@@ -1,4 +1,7 @@
 import Feedback from "../models/feedback.model.js";
+import Advertisement from "../models/adverticement.model.js";
+import EmotionCounts from "../models/emotion_counts.model.js";
+import MatchingData from "../models/feedback.model.js";
 export const generatedFeedback = async (req, res) => {
   //   const { userId, title, video, scheduleDateTime } = req.body;
 
@@ -51,6 +54,13 @@ export const getAdvertisementAllFeedbacks = async (req, res) => {
 
 export const getAllFeedbacks = async (req, res) => {
   try {
+  //  await getAllemotionsTimeEqualAdverticementTime(req, res);
+    // Retrieve all EmotionCounts data from your database
+    const emotionDataFromDB = await EmotionCounts.find();
+
+    // Retrieve all Advertisement data from your database
+    const advertisementData = await Advertisement.find();
+
     const feedback = await Feedback.find();
     res.status(200).send(feedback);
   } catch (error) {
