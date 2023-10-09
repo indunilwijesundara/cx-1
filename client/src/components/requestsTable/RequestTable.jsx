@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { userColumns, userRows } from "../../requestsource";
 import axios from "axios";
+import { format } from "date-fns";
 
 const RequestTable = () => {
   const [data, setData] = useState([]);
@@ -31,17 +32,16 @@ const RequestTable = () => {
   }, [apiUrl]);
 
   const formattedData = data.map((item, index) => {
-    // Check if the date value is valid before formatting
-    // const scheduleDateTime = isValid(parseISO(item.scheduleDateTime))
-    //   ? format(parseISO(item.scheduleDateTime), "yyyy-MM-dd HH:mm:ss")
-    //   : "Invalid Date";
+    const createdAt = new Date(item.createdAt);
+    const date = format(createdAt, "yyyy-MM-dd");
+    const time = format(createdAt, "HH:mm:ss");
 
     return {
       id: item._id, // Manually assign a unique identifier
       title: item.title,
       video: item.video,
-      scheduleDate: item.scheduleDate,
-      scheduleTime: item.scheduleTime,
+      date,
+      time,
       status: item.status,
     };
   });
@@ -76,12 +76,12 @@ const RequestTable = () => {
     { field: "title", headerName: "Title", width: 150 },
     { field: "video", headerName: "Video", width: 150 },
     {
-      field: "scheduleDate",
+      field: "date",
       headerName: "Schedule Date",
       width: 200,
     },
     {
-      field: "scheduleTime",
+      field: "time",
       headerName: "Schedule Time",
       width: 200,
     },

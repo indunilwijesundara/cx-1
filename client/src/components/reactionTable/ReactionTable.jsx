@@ -1,23 +1,16 @@
-import "./reactionTable.scss";
-
-import { DataGrid } from "@mui/x-data-grid";
-
-import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { userColumns, userRows } from "../../userssource";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ReactPlayer from "react-player";
+import { DataGrid } from "@mui/x-data-grid";
 import { format } from "date-fns";
 
 const ReactionTable = () => {
   const [data, setData] = useState([]);
+  const [advertisements, setAdvertisements] = useState({});
 
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  const [advertisements, setAdvertisements] = useState(null);
   useEffect(() => {
     const fetchFeedbackDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8800/api/feedbacks`);
+        const response = await axios.get("http://localhost:8800/api/emotions");
         setData(response.data);
       } catch (error) {
         console.error("Error fetching feedback details", error);
@@ -28,7 +21,6 @@ const ReactionTable = () => {
   }, []);
 
   useEffect(() => {
-    // Fetch advertisement details for each feedback item
     const fetchAdvertisementDetails = async () => {
       const advertisementDetails = {};
 
@@ -36,7 +28,7 @@ const ReactionTable = () => {
         if (feedbackItem.advertisement) {
           try {
             const response = await axios.get(
-              `http://localhost:8800/api/adverticements/${feedbackItem.advertisement}`
+              `http://localhost:8800/api/advertisements/${feedbackItem.advertisement}`
             );
             advertisementDetails[feedbackItem._id] = response.data.title;
           } catch (error) {
@@ -50,23 +42,24 @@ const ReactionTable = () => {
 
     fetchAdvertisementDetails();
   }, [data]);
+
   const formattedData = data.map((item, index) => {
-    const createdAt = new Date(item.createdAt);
+    const createdAt = new Date(item.advertisement.scheduleDateTime);
     const date = format(createdAt, "yyyy-MM-dd");
     const time = format(createdAt, "HH:mm:ss");
 
     return {
       id: index + 1,
-      title: advertisements[item._id] || "N/A", // Use the stored advertisement title or "N/A" if not available
-      anger: item.emotion_counts.anger,
-      contempt: item.emotion_counts.contempt,
-      disgust: item.emotion_counts.disgust,
-      fear: item.emotion_counts.fear,
-      happy: item.emotion_counts.happy,
-      neutral: item.emotion_counts.neutral,
-      surprise: item.emotion_counts.surprise,
-      date, // Separate date
-      time, // Separate time
+      title: item.advertisement.title || "N/A",
+      anger: item.emotionData.emotion_counts.anger,
+      contempt: item.emotionData.emotion_counts.contempt,
+      disgust: item.emotionData.emotion_counts.disgust,
+      fear: item.emotionData.emotion_counts.fear,
+      happy: item.emotionData.emotion_counts.happy,
+      neutral: item.emotionData.emotion_counts.neutral,
+      surprise: item.emotionData.emotion_counts.surprise,
+      date,
+      time,
     };
   });
 
@@ -80,29 +73,13 @@ const ReactionTable = () => {
     { field: "happy", headerName: "Happy", width: 100 },
     { field: "neutral", headerName: "Neutral", width: 100 },
     { field: "surprise", headerName: "Surprise", width: 100 },
-    { field: "date", headerName: "Date", width: 150 }, // Date column
-    { field: "time", headerName: "Time", width: 100 }, // Time column
+    { field: "date", headerName: "Date", width: 150 },
+    { field: "time", headerName: "Time", width: 100 },
   ];
-  const handleDelete = async (id) => {
-    console.log(id);
-    try {
-      await axios.delete(`http://localhost:8800/api/users/${id}`);
-      // After successful deletion, refetch the data
-      // const response = await axios.get(apiUrl);
-      // setData(response.data);
-    } catch (error) {
-      console.error("Error deleting advertisement", error);
-    }
-  };
 
   return (
     <div className="datatable">
-      <div className="datatableTitle">
-        Reactions History
-        {/* <Link to="/users/new" className="link">
-          Add New
-        </Link> */}
-      </div>
+      <div className="datatableTitle">Reactions History</div>
       <DataGrid
         className="datagrid"
         rows={formattedData}

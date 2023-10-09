@@ -1,9 +1,9 @@
 import express from "express";
-import { getAllEmotionalCounts, getAllemotionsTimeEqualAdverticementTime } from "../controller/emotion_counts.controller.js";
+import { getAllEmotionalCounts, getEmotionsForAdvertisement,  } from "../controller/emotion_counts.controller.js";
 
 const router = express.Router();
 
-router.get("/:id", getAllEmotionalCounts);
-router.get("/", getAllemotionsTimeEqualAdverticementTime);
+router.get("/", getAllEmotionalCounts);
+router.get("/:advertisementId", getEmotionsForAdvertisement);
 
 export default router;
