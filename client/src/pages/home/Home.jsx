@@ -38,7 +38,6 @@ const Home = () => {
                 <Widget type="user" />
                 <Widget type="order" />
                 <Widget type="balance" />
-                <Widget type="history" />
               </div>
               <ReactionTable></ReactionTable>
             </div>
