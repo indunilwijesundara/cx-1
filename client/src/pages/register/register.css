@@ -23,6 +23,12 @@
     margin: 5px 5px 5px 5px;
     justify-content: right;
   }
+    .coverlogo {
+      width: 60%;
+      height: 30%;
+      margin-bottom: 20px;
+      justify-content: right;
+    }
   
   .regbox {
     display: flex;

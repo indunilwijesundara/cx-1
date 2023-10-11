@@ -67,7 +67,7 @@ const AdverticementTable = () => {
     {
       field: "video",
       headerName: "Video",
-      width: 150,
+      width: 100,
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
@@ -85,7 +85,7 @@ const AdverticementTable = () => {
     {
       field: "date",
       headerName: "Schedule Date",
-      width: 200,
+      width: 150,
     },
     {
       field: "time",

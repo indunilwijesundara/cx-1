@@ -1,37 +1,39 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const emotionCountsSchema = new Schema(
-  {
-
-    emotion_counts: {
-      type: {
-anger: Number,
-contempt: Number,
-disgust: Number,
-fear: Number,
-happy: Number,
-neutral: Number,
-surprise: Number,
-      },
-      default: {
-        Happy: 0,
-        Sad: 0,
-        Angry: 0,
-        Disgust: 0,
-        Fear: 0,
-        Neutral: 0,
-        Surprise: 0,
-      },
+const emotionCountsSchema = new Schema({
+  emotion_counts: {
+    type: {
+      anger: Number,
+      contempt: Number,
+      disgust: Number,
+      fear: Number,
+      happy: Number,
+      neutral: Number,
+      surprise: Number,
+      sad: Number,
     },
-    most_detected_emotion:
-    {
-      type:String,
-      required: true,
-    },timestamp:{
-type:Number
-    }
+    default: {
+      anger: 0,
+      contempt: 0,
+      disgust: 0,
+      fear: 0,
+      happy: 0,
+      neutral: 0,
+      surprise: 0,
+      sad: 0,
+    },
   },
- 
-);
+  advertisementId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
+  scheduleDateTime: {
+    type: Date,
+    required: true,
+  },
+  timestamp: {
+    type: Number,
+  },
+});
 export default mongoose.model("Emotion_counts", emotionCountsSchema);

@@ -7,19 +7,24 @@ import { useParams } from "react-router-dom";
 const FeedBackTable = ({ advertisementId }) => {
   const [data, setData] = useState([]);
   const [advertisement, setAdvertisement] = useState(null);
-  console.log(advertisementId);
+
   useEffect(() => {
     const fetchAdvertisementDetails = async () => {
       try {
+        // Fetch the advertisement details by advertisementId
         const response = await axios.get(
           `http://localhost:8800/api/adverticements/${advertisementId}`
         );
-        setAdvertisement(response.data);
+        setAdvertisement(response.data); // Assuming your API returns the advertisement title
       } catch (error) {
         console.error("Error fetching advertisement details", error);
       }
     };
 
+    fetchAdvertisementDetails();
+  }, [advertisementId]);
+  console.log(advertisement);
+  useEffect(() => {
     const fetchFeedbackDetails = async () => {
       try {
         const response = await axios.get(
@@ -31,18 +36,17 @@ const FeedBackTable = ({ advertisementId }) => {
       }
     };
 
-    // Call both fetch functions when the component mounts
-    fetchAdvertisementDetails();
     fetchFeedbackDetails();
   }, [advertisementId]);
 
   const formattedData = data.map((item, index) => {
-    const createdAt = new Date(item.timestamp * 1000); // Convert timestamp to milliseconds
+    const createdAt = new Date(item.scheduleDateTime);
     const date = format(createdAt, "yyyy-MM-dd");
     const time = format(createdAt, "HH:mm:ss");
 
     return {
       id: index + 1,
+      title: advertisement.title, // Display the advertisement title
       anger: item.emotion_counts.anger,
       contempt: item.emotion_counts.contempt,
       disgust: item.emotion_counts.disgust,
@@ -57,6 +61,7 @@ const FeedBackTable = ({ advertisementId }) => {
 
   const userColumns = [
     { field: "id", headerName: "ID", width: 50 },
+    { field: "title", headerName: "Title", width: 150 }, // Display the title column
     { field: "anger", headerName: "Anger", width: 100 },
     { field: "contempt", headerName: "Contempt", width: 100 },
     { field: "disgust", headerName: "Disgust", width: 100 },
