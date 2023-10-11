@@ -45,6 +45,9 @@ const Adverticement = () => {
         const response = await axios.get(
           `http://localhost:8800/api/emotions/${adverticementId}`
         );
+        console.log(adverticementId)
+        console.log("response ----------------")
+        console.log(response);
         setFeedback(response.data);
         setLoading(false);
       } catch (error) {

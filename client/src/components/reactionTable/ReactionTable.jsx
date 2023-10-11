@@ -19,53 +19,33 @@ const ReactionTable = () => {
 
     fetchFeedbackDetails();
   }, []);
+console.log(data)
 
-  useEffect(() => {
-    const fetchAdvertisementDetails = async () => {
-      const advertisementDetails = {};
 
-      for (const feedbackItem of data) {
-        if (feedbackItem.advertisement) {
-          try {
-            const response = await axios.get(
-              `http://localhost:8800/api/advertisements/${feedbackItem.advertisement}`
-            );
-            advertisementDetails[feedbackItem._id] = response.data.title;
-          } catch (error) {
-            console.error("Error fetching advertisement details", error);
-          }
-        }
-      }
+const formattedData = data.map((item, index) => {
+  const createdAt = new Date(item.scheduleDateTime);
+  const date = format(createdAt, "yyyy-MM-dd");
+  const time = format(createdAt, "HH:mm:ss");
 
-      setAdvertisements(advertisementDetails);
-    };
-
-    fetchAdvertisementDetails();
-  }, [data]);
-
-  const formattedData = data.map((item, index) => {
-    const createdAt = new Date(item.advertisement.scheduleDateTime);
-    const date = format(createdAt, "yyyy-MM-dd");
-    const time = format(createdAt, "HH:mm:ss");
-
-    return {
-      id: index + 1,
-      title: item.advertisement.title || "N/A",
-      anger: item.emotionData.emotion_counts.anger,
-      contempt: item.emotionData.emotion_counts.contempt,
-      disgust: item.emotionData.emotion_counts.disgust,
-      fear: item.emotionData.emotion_counts.fear,
-      happy: item.emotionData.emotion_counts.happy,
-      neutral: item.emotionData.emotion_counts.neutral,
-      surprise: item.emotionData.emotion_counts.surprise,
-      date,
-      time,
-    };
-  });
+  return {
+    id: index + 1,
+    // title:item.
+  
+    anger: item.emotion_counts.anger,
+    contempt: item.emotion_counts.contempt,
+    disgust: item.emotion_counts.disgust,
+    fear: item.emotion_counts.fear,
+    happy: item.emotion_counts.happy,
+    neutral: item.emotion_counts.neutral,
+    surprise: item.emotion_counts.surprise,
+    date,
+    time,
+  };
+});
 
   const userColumns = [
     { field: "id", headerName: "ID", width: 50 },
-    { field: "title", headerName: "Title", width: 100 },
+    // { field: "title", headerName: "Title", width: 50 },
     { field: "anger", headerName: "Anger", width: 100 },
     { field: "contempt", headerName: "Contempt", width: 100 },
     { field: "disgust", headerName: "Disgust", width: 100 },
