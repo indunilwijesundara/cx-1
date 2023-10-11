@@ -46,7 +46,7 @@ const FeedBackTable = ({ advertisementId }) => {
 
     return {
       id: index + 1,
-      title: advertisement.title, // Display the advertisement title
+      title: advertisement?.title, // Display the advertisement title
       anger: item.emotion_counts.anger,
       contempt: item.emotion_counts.contempt,
       disgust: item.emotion_counts.disgust,
