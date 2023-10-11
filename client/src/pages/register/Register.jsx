@@ -90,7 +90,9 @@ export default function Register() {
   return (
     <div className="reg">
       <div className="reg-wrapper">
+        
         <div className="regbox">
+          
           <div className="reg-left">
             <h3>Register Your Account</h3>
             {errorMessage && <div className="error">{errorMessage}</div>}{" "}

@@ -8,55 +8,47 @@ const FeedBackTable = ({ advertisementId }) => {
   const [data, setData] = useState([]);
   const [advertisement, setAdvertisement] = useState(null);
   console.log(advertisementId);
-  useEffect(() => {
-    const fetchAdvertisementDetails = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8800/api/adverticements/${advertisementId}`
-        );
-        setAdvertisement(response.data);
-      } catch (error) {
-        console.error("Error fetching advertisement details", error);
-      }
-    };
 
+
+  useEffect(() => {
     const fetchFeedbackDetails = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8800/api/emotions/${advertisementId}`
-        );
+        const response = await axios.get( `http://localhost:8800/api/emotions/${advertisementId}`);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching feedback details", error);
       }
     };
 
-    // Call both fetch functions when the component mounts
-    fetchAdvertisementDetails();
     fetchFeedbackDetails();
   }, [advertisementId]);
+console.log(data)
 
-  const formattedData = data.map((item, index) => {
-    const createdAt = new Date(item.timestamp * 1000); // Convert timestamp to milliseconds
-    const date = format(createdAt, "yyyy-MM-dd");
-    const time = format(createdAt, "HH:mm:ss");
 
-    return {
-      id: index + 1,
-      anger: item.emotion_counts.anger,
-      contempt: item.emotion_counts.contempt,
-      disgust: item.emotion_counts.disgust,
-      fear: item.emotion_counts.fear,
-      happy: item.emotion_counts.happy,
-      neutral: item.emotion_counts.neutral,
-      surprise: item.emotion_counts.surprise,
-      date,
-      time,
-    };
-  });
+const formattedData = data.map((item, index) => {
+  const createdAt = new Date(item.scheduleDateTime);
+  const date = format(createdAt, "yyyy-MM-dd");
+  const time = format(createdAt, "HH:mm:ss");
+
+  return {
+    id: index + 1,
+    // title:item.
+  
+    anger: item.emotion_counts.anger,
+    contempt: item.emotion_counts.contempt,
+    disgust: item.emotion_counts.disgust,
+    fear: item.emotion_counts.fear,
+    happy: item.emotion_counts.happy,
+    neutral: item.emotion_counts.neutral,
+    surprise: item.emotion_counts.surprise,
+    date,
+    time,
+  };
+});
 
   const userColumns = [
     { field: "id", headerName: "ID", width: 50 },
+    // { field: "title", headerName: "Title", width: 50 },
     { field: "anger", headerName: "Anger", width: 100 },
     { field: "contempt", headerName: "Contempt", width: 100 },
     { field: "disgust", headerName: "Disgust", width: 100 },

@@ -32,7 +32,7 @@ const RequestTable = () => {
   }, [apiUrl]);
 
   const formattedData = data.map((item, index) => {
-    const createdAt = new Date(item.createdAt);
+    const createdAt = new Date(item.scheduleDateTime);
     const date = format(createdAt, "yyyy-MM-dd");
     const time = format(createdAt, "HH:mm:ss");
 

@@ -15,12 +15,21 @@ from utils.torch_utils import select_device, time_synchronized
 from PIL import Image, ImageDraw, ImageFont
 import threading  # Import the threading module
 from pymongo import MongoClient
-
+import datetime
 # Define emotions
 emotions = ("anger", "contempt", "disgust", "fear",
             "happy", "neutral", "sad", "surprise")
 
 # Define a function to print the emotion summary
+# Replace with your MongoDB Atlas connection string
+mongo_uri = "mongodb+srv://root:root@cluster0.zy96vnm.mongodb.net/?retryWrites=true&w=majority"
+mongo_client = MongoClient(mongo_uri)
+
+# Replace with your database name
+mongo_db = mongo_client['test']
+# Replace with your collection name
+mongo_collection = mongo_db['emotion_counts']
+advertisements_collection = mongo_db['adverticements']
 
 
 def print_emotion_summary(emotion_counts, collection):
@@ -32,30 +41,43 @@ def print_emotion_summary(emotion_counts, collection):
         print("")  # Print a newline to separate the output
 
         # Send the emotion count data to MongoDB
-        send_emotion_counts_to_mongodb(emotion_counts, collection)
+        send_emotion_counts_to_mongodb(
+            emotion_counts, collection, advertisements_collection)
 
 # Create a function to send emotion count data to MongoDB
 
 
-def send_emotion_counts_to_mongodb(emotion_counts, collection):
-    # Create a document to store the emotion counts
-    emotion_count_data = {
-        'timestamp': int(time.time()),  # You can add a timestamp if needed
-        'emotion_counts': emotion_counts
-    }
+def send_emotion_counts_to_mongodb(emotion_counts, collection, advertisements_collection):
 
-    # Insert the data into MongoDB
-    collection.insert_one(emotion_count_data)
+    # Get the current datetime
+    current_datetime = datetime.datetime.now()
 
+    # Query the advertisements collection to find scheduled advertisements
+    scheduled_advertisements = advertisements_collection.find({
+        "scheduleDateTime": {"$lte": current_datetime}
+    })
+    # Iterate over the scheduled advertisements
+    for advertisement in scheduled_advertisements:
 
-# Replace with your MongoDB Atlas connection string
-mongo_uri = "mongodb+srv://root:root@cluster0.zy96vnm.mongodb.net/?retryWrites=true&w=majority"
-mongo_client = MongoClient(mongo_uri)
+        print("Scheduled Advertisement:")
+        print(f"Advertisement ID: {advertisement['_id']}")
+        print(f"Schedule Date and Time: {advertisement['scheduleDateTime']}")
+        print("------")
+        advertisementId = advertisement["_id"]
 
-# Replace with your database name
-mongo_db = mongo_client['test']
-# Replace with your collection name
-mongo_collection = mongo_db['emotion_counts']
+        # Sleep for 30 seconds
+        time.sleep(30)
+
+        # Create a document to store the emotion counts
+        emotion_count_data = {
+            'timestamp': int(time.time()),  # You can add a timestamp if needed
+            'emotion_counts': emotion_counts,
+            'advertisementId': advertisementId,
+            'scheduleDateTime': advertisement["scheduleDateTime"]
+        }
+
+        # Insert the data into MongoDB
+        collection.insert_one(emotion_count_data)
 
 
 def detect(opt):

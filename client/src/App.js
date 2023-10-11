@@ -23,14 +23,13 @@ import { useAuth } from "./AuthContext";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
   const { currentUser, login, logout } = useAuth();
-  console.log(currentUser)
+  console.log(currentUser);
   return (
-   
     <div className="app">
       <BrowserRouter>
         <Routes>
-           {/* Redirect to login page if not logged in */}
-           {currentUser ? (
+          {/* Redirect to login page if not logged in */}
+          {currentUser ? (
             <Route path="/" element={<Home />} />
           ) : (
             <Route path="/login" element={<Login></Login>} />
@@ -41,14 +40,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />
 
           <Route path="/users/:userId" element={<SingleUser />} />
-          <Route
-            path="/users/new"
-            element={<New/>}
-          />
-            <Route
-            path="/users/editads/:userId"
-            element={<EditUser/>}
-          />
+          <Route path="/users/new" element={<New />} />
+          <Route path="/users/editads/:userId" element={<EditUser />} />
           <Route path="/adverticement" element={<AdverticementList />} />
           <Route
             path="/adverticement/newads"
@@ -59,7 +52,7 @@ function App() {
             path="/adverticement/:adverticementId"
             element={<Adverticement />}
           />
-            <Route
+          <Route
             path="/adverticement/editads/:adverticementId"
             element={<EditAdverticement />}
           />
