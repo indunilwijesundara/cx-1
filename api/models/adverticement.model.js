@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
+import moment from "moment-timezone";
 
 const adverticementSchema = new Schema(
   {
@@ -19,7 +20,10 @@ const adverticementSchema = new Schema(
       type: Date,
       required: true,
     },
-   
+    endScheduleDateTime: {
+      type: Date,
+      required: true,
+    },
     status: {
       type: Boolean,
       default: false,

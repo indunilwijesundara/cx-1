@@ -19,33 +19,33 @@ const ReactionTable = () => {
 
     fetchFeedbackDetails();
   }, []);
-console.log(data)
+  console.log(data);
 
+  const formattedData = data.map((item, index) => {
+    // const createdAt = new Date(item.scheduleDateTime);
+    // const date = format(createdAt, "yyyy-MM-dd");
+    // const time = format(createdAt, "HH:mm:ss");
 
-const formattedData = data.map((item, index) => {
-  const createdAt = new Date(item.scheduleDateTime);
-  const date = format(createdAt, "yyyy-MM-dd");
-  const time = format(createdAt, "HH:mm:ss");
+    return {
+      id: index + 1,
+      title: item.advertisement_title,
 
-  return {
-    id: index + 1,
-    // title:item.
-  
-    anger: item.emotion_counts.anger,
-    contempt: item.emotion_counts.contempt,
-    disgust: item.emotion_counts.disgust,
-    fear: item.emotion_counts.fear,
-    happy: item.emotion_counts.happy,
-    neutral: item.emotion_counts.neutral,
-    surprise: item.emotion_counts.surprise,
-    date,
-    time,
-  };
-});
+      anger: item.emotion_counts.anger,
+      contempt: item.emotion_counts.contempt,
+      disgust: item.emotion_counts.disgust,
+      fear: item.emotion_counts.fear,
+      happy: item.emotion_counts.happy,
+      neutral: item.emotion_counts.neutral,
+      surprise: item.emotion_counts.surprise,
+      sad: item.emotion_counts.sad,
+      // date,
+      // time,
+    };
+  });
 
   const userColumns = [
     { field: "id", headerName: "ID", width: 50 },
-    // { field: "title", headerName: "Title", width: 50 },
+    { field: "title", headerName: "Title", width: 200 },
     { field: "anger", headerName: "Anger", width: 100 },
     { field: "contempt", headerName: "Contempt", width: 100 },
     { field: "disgust", headerName: "Disgust", width: 100 },
@@ -53,8 +53,9 @@ const formattedData = data.map((item, index) => {
     { field: "happy", headerName: "Happy", width: 100 },
     { field: "neutral", headerName: "Neutral", width: 100 },
     { field: "surprise", headerName: "Surprise", width: 100 },
-    { field: "date", headerName: "Date", width: 150 },
-    { field: "time", headerName: "Time", width: 100 },
+    { field: "sad", headerName: "Sad", width: 100 },
+    // { field: "date", headerName: "Date", width: 150 },
+    // { field: "time", headerName: "Time", width: 100 },
   ];
 
   return (

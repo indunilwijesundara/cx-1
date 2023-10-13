@@ -24,12 +24,12 @@ const emotionCountsSchema = new Schema({
       sad: 0,
     },
   },
-  advertisementId: {
+  advertisement_id: {
     type: Schema.Types.ObjectId,
     required: true,
   },
-  scheduleDateTime: {
-    type: Date,
+  advertisement_title:{
+    type: String,
     required: true,
   },
   timestamp: {
