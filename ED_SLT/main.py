@@ -64,10 +64,8 @@ def send_emotion_counts_to_mongodb(emotion_counts, collection, advertisements_co
         print(f"Schedule Date and Time: {advertisement['scheduleDateTime']}")
         print("------")
         advertisementId = advertisement["_id"]
-
         # Sleep for 30 seconds
         time.sleep(30)
-
         # Create a document to store the emotion counts
         emotion_count_data = {
             'timestamp': int(time.time()),  # You can add a timestamp if needed

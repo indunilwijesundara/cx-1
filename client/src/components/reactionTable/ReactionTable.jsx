@@ -29,7 +29,7 @@ const formattedData = data.map((item, index) => {
 
   return {
     id: index + 1,
-    // title:item.
+    title:item.advertisementId,
   
     anger: item.emotion_counts.anger,
     contempt: item.emotion_counts.contempt,
@@ -45,7 +45,7 @@ const formattedData = data.map((item, index) => {
 
   const userColumns = [
     { field: "id", headerName: "ID", width: 50 },
-    // { field: "title", headerName: "Title", width: 50 },
+     { field: "title", headerName: "Title", width: 50 },
     { field: "anger", headerName: "Anger", width: 100 },
     { field: "contempt", headerName: "Contempt", width: 100 },
     { field: "disgust", headerName: "Disgust", width: 100 },
