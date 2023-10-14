@@ -32,8 +32,6 @@ export const getEmotionsForAdvertisement = async (req, res) => {
   }
 };
 
-
-
 export const getAllEmotionalCounts = async (req, res) => {
   try {
     const emotionCounts = await EmotionCounts.find();
