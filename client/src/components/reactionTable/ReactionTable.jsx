@@ -6,11 +6,16 @@ import { format } from "date-fns";
 const ReactionTable = () => {
   const [data, setData] = useState([]);
   const [advertisements, setAdvertisements] = useState({});
-
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  let apiUrl = "http://localhost:8800/api/emotions";
+  if (currentUser.role === "user") {
+    // If the user is a regular user, filter advertisements accordingly
+    apiUrl = `http://localhost:8800/api/emotions/users/${currentUser._id}`;
+  }
   useEffect(() => {
     const fetchFeedbackDetails = async () => {
       try {
-        const response = await axios.get("http://localhost:8800/api/emotions");
+        const response = await axios.get(apiUrl);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching feedback details", error);
@@ -18,7 +23,7 @@ const ReactionTable = () => {
     };
 
     fetchFeedbackDetails();
-  }, []);
+  }, [apiUrl]);
   console.log(data);
 
   const formattedData = data.map((item, index) => {

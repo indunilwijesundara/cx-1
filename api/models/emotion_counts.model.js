@@ -28,6 +28,10 @@ const emotionCountsSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
   },
+  userId:{
+    type: String,
+    required: false,
+  },
   advertisement_title:{
     type: String,
     required: true,
