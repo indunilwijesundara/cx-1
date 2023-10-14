@@ -90,9 +90,7 @@ export default function Register() {
   return (
     <div className="reg">
       <div className="reg-wrapper">
-        
         <div className="regbox">
-          
           <div className="reg-left">
             <h3>Register Your Account</h3>
             {errorMessage && <div className="error">{errorMessage}</div>}{" "}
@@ -160,7 +158,16 @@ export default function Register() {
             <span className="dontAccount">Already have an account? Login</span>
           </Link>
         </div>
-        <div className="reg-right"></div>
+        <div className="reg-right">
+          <img
+            src="http://localhost:3000/assets/logo.png"
+            class="coverlogo"
+            alt="Login cover image"
+          ></img>
+          <div className="tagline">
+            Unlocking insights empowering experience
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -66,6 +66,12 @@
     /* Prevents the image from repeating */
     background-position: center;
     width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
   }
   
   .reg h3 {
