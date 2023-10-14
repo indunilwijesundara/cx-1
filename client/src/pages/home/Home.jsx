@@ -27,10 +27,13 @@ const Home = () => {
         <Navbar />
         <div className="widgets">
           {userRole === "user" ? (
-            <div className="widgets-wrapper">
-              <Widget type="myadsApprove" />
-              <Widget type="myadsInactive" />
-              <Widget type="user" />
+            <div className="widgets-admin">
+              <div className="widgets-wrapper">
+                <Widget type="myadsApprove" />
+                <Widget type="myadsInactive" />
+                <Widget type="user" />
+              </div>
+              <ReactionTable></ReactionTable>
             </div>
           ) : (
             <div className="widgets-admin">

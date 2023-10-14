@@ -27,7 +27,7 @@ def print_emotion_summary(emotion_counts, ad_data, collection):
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     ad_id = ad_data['_id']
     ad_title = ad_data['title']
-
+    ad_user = ad_data['userId']
     print(f"Advertisement ID: {ad_id}")
     print(f"Advertisement Title: {ad_title}")
 
@@ -37,16 +37,18 @@ def print_emotion_summary(emotion_counts, ad_data, collection):
     print("")
 
     # Send the emotion count data to MongoDB along with advertisement details
-    send_emotion_counts_to_mongodb(emotion_counts, ad_id, ad_title, collection)
+    send_emotion_counts_to_mongodb(
+        emotion_counts, ad_id, ad_title, ad_user, collection)
 
 # Create a function to send emotion count data to MongoDB with advertisement details
 
 
-def send_emotion_counts_to_mongodb(emotion_counts, ad_id, ad_title, collection):
+def send_emotion_counts_to_mongodb(emotion_counts, ad_id, ad_title, ad_user, collection):
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     emotion_count_data = {
         'advertisement_id': ad_id,
         'advertisement_title': ad_title,
+        'userId': ad_user,
         'timestamp': current_time,
         'emotion_counts': emotion_counts
     }
@@ -71,6 +73,7 @@ def get_advertisement_data(collection):
     current_time = datetime.now()
     ad_data = collection.find_one(
         {
+
             'scheduleDateTime': {
                 '$lte': current_time
             },
@@ -141,6 +144,7 @@ def detect(opt):
         if ad_data:
             ad_id = ad_data['_id']
             ad_title = ad_data['title']
+            ad_user = ad_data['userId']
             start_date_time = ad_data.get('scheduleDateTime')
             end_date_time = ad_data.get('endScheduleDateTime')
             current_time = datetime.now()

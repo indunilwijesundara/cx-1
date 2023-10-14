@@ -28,12 +28,16 @@ const emotionCountsSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
   },
+  userId:{
+    type: String,
+    required: false,
+  },
   advertisement_title:{
     type: String,
     required: true,
   },
   timestamp: {
-    type: Number,
+    type: String,
   },
 });
 export default mongoose.model("Emotion_counts", emotionCountsSchema);

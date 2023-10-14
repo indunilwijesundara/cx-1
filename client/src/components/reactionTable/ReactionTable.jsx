@@ -6,11 +6,16 @@ import { format } from "date-fns";
 const ReactionTable = () => {
   const [data, setData] = useState([]);
   const [advertisements, setAdvertisements] = useState({});
-
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  let apiUrl = "http://localhost:8800/api/emotions";
+  if (currentUser.role === "user") {
+    // If the user is a regular user, filter advertisements accordingly
+    apiUrl = `http://localhost:8800/api/emotions/users/${currentUser._id}`;
+  }
   useEffect(() => {
     const fetchFeedbackDetails = async () => {
       try {
-        const response = await axios.get("http://localhost:8800/api/emotions");
+        const response = await axios.get(apiUrl);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching feedback details", error);
@@ -18,7 +23,7 @@ const ReactionTable = () => {
     };
 
     fetchFeedbackDetails();
-  }, []);
+  }, [apiUrl]);
   console.log(data);
 
   const formattedData = data.map((item, index) => {
@@ -38,7 +43,7 @@ const ReactionTable = () => {
       neutral: item.emotion_counts.neutral,
       surprise: item.emotion_counts.surprise,
       sad: item.emotion_counts.sad,
-      // date,
+      dateTime: item.timestamp,
       // time,
     };
   });
@@ -46,15 +51,15 @@ const ReactionTable = () => {
   const userColumns = [
     { field: "id", headerName: "ID", width: 50 },
     { field: "title", headerName: "Title", width: 200 },
-    { field: "anger", headerName: "Anger", width: 100 },
-    { field: "contempt", headerName: "Contempt", width: 100 },
-    { field: "disgust", headerName: "Disgust", width: 100 },
-    { field: "fear", headerName: "Fear", width: 100 },
-    { field: "happy", headerName: "Happy", width: 100 },
-    { field: "neutral", headerName: "Neutral", width: 100 },
-    { field: "surprise", headerName: "Surprise", width: 100 },
-    { field: "sad", headerName: "Sad", width: 100 },
-    // { field: "date", headerName: "Date", width: 150 },
+    { field: "anger", headerName: "Anger", width: 75 },
+    { field: "contempt", headerName: "Contempt", width: 75 },
+    { field: "disgust", headerName: "Disgust", width: 75 },
+    { field: "fear", headerName: "Fear", width: 75 },
+    { field: "happy", headerName: "Happy", width: 75 },
+    { field: "neutral", headerName: "Neutral", width: 75 },
+    { field: "surprise", headerName: "Surprise", width: 75 },
+    { field: "sad", headerName: "Sad", width: 75 },
+    { field: "dateTime", headerName: "Date & Time", width: 250 },
     // { field: "time", headerName: "Time", width: 100 },
   ];
 

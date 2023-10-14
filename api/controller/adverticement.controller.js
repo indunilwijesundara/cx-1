@@ -27,14 +27,29 @@ export const createAdverticement = async (req, res) => {
 };
 
 export const editAdverticement = async (req, res) => {
-  const { advertisementId } = req.params; // Assuming you pass the advertisement ID as a route parameter
-  console.log(advertisementId);
+  const { advertisementId } = req.params;
   const updateFields = req.body;
-  console.log(updateFields);
+
   try {
+    // Extract the scheduleDate, scheduleTime, endScheduleDate, and endScheduleTime from the updateFields
+    const { scheduleDate, scheduleTime, endScheduleDate, endScheduleTime, ...restOfData } = updateFields;
+
+    // Combine scheduleDate and scheduleTime to create a valid Date object for local time
+    const scheduleDateTimeLocal = moment.tz(`${scheduleDate}T${scheduleTime}`, 'YYYY-MM-DDTHH:mm:ss.SSS', 'YOUR_TIMEZONE').toDate();
+
+    // Combine endScheduleDate and endScheduleTime to create a valid Date object for local time
+    const endScheduleDateTimeLocal = moment.tz(`${endScheduleDate}T${endScheduleTime}`, 'YYYY-MM-DDTHH:mm:ss.SSS', 'YOUR_TIMEZONE').toDate();
+
+    // Create an object with the fields you want to update
+    const updatedFields = {
+      ...restOfData,
+      scheduleDateTime: scheduleDateTimeLocal,
+      endScheduleDateTime: endScheduleDateTimeLocal,
+    };
+
     const updatedAdvertisement = await Advertisement.findByIdAndUpdate(
       advertisementId,
-      { $set: updateFields },
+      { $set: updatedFields }, // Use $set to update the specified fields
       { new: true }
     );
 
@@ -48,6 +63,8 @@ export const editAdverticement = async (req, res) => {
     res.status(500).json({ error: "Failed to update advertisement" });
   }
 };
+
+
 export const getAdverticement = async (req, res) => {
   try {
     const adverticement = await Advertisement.findById(req.params.id);

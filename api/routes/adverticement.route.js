@@ -13,7 +13,7 @@ import {
 const router = express.Router();
 
 router.post("/", createAdverticement);
-router.put("/:advertisementId", editAdverticement);
+router.put("/ads/:advertisementId", editAdverticement);
 router.get("/:id", getAdverticement);
 router.get("/user/:userId", getUserAllAdverticements);
 router.get("/", getAllAdverticements);

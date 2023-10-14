@@ -74,13 +74,13 @@ const Adverticement = () => {
           <div className="right">
             <h3>Advertisement Details</h3>
             <p>{advertisement.title}</p>
-            <p>
+            {/* <p>
               {advertisement.scheduleDateTime
                 ? new Date(advertisement.scheduleDateTime)
                     .toISOString()
                     .split("T")[0]
                 : ""}
-            </p>
+            </p> */}
 
             <p>{advertisement.status}</p>
           </div>
