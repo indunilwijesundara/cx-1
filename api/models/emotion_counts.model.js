@@ -37,7 +37,7 @@ const emotionCountsSchema = new Schema({
     required: true,
   },
   timestamp: {
-    type: Number,
+    type: String,
   },
 });
 export default mongoose.model("Emotion_counts", emotionCountsSchema);

@@ -30,21 +30,20 @@ const AdverticementTable = () => {
   }, [apiUrl]);
 
   const formattedData = data.map((item, index) => {
-    const createdAt = new Date(item.scheduleDateTime);
-    const date = format(createdAt, "yyyy-MM-dd");
-    const time = format(createdAt, "HH:mm:ss");
+    // Directly extract and format the date and time components
+    const scheduleDate = item.scheduleDateTime.slice(0, 10);
+    const scheduleTime = item.scheduleDateTime.slice(11, 19);
+    const endScheduleDate = item.endScheduleDateTime.slice(0, 10);
+    const endScheduleTime = item.endScheduleDateTime.slice(11, 19);
 
-    const endDateTime = new Date(item.endScheduleDateTime);
-    const enddate = format(endDateTime, "yyyy-MM-dd");
-    const endtime = format(endDateTime, "HH:mm:ss");
     return {
-      id: item._id, // Manually assign a unique identifier
+      id: item._id,
       title: item.title,
       video: item.video,
-      date,
-      time,
-      enddate,
-      endtime,
+      scheduleDate,
+      scheduleTime,
+      endScheduleDate,
+      endScheduleTime,
       status: item.status,
     };
   });
@@ -88,22 +87,22 @@ const AdverticementTable = () => {
       },
     },
     {
-      field: "date",
+      field: "scheduleDate",
       headerName: "Schedule Date",
       width: 150,
     },
     {
-      field: "time",
+      field: "scheduleTime",
       headerName: "Schedule Time",
       width: 150,
     },
     {
-      field: "enddate",
+      field: "endScheduleDate",
       headerName: "End Schedule Date",
       width: 150,
     },
     {
-      field: "endtime",
+      field: "endScheduleTime",
       headerName: "End Schedule Time",
       width: 150,
     },

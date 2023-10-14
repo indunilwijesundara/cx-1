@@ -24,7 +24,7 @@ const EditAdverticement = () => {
   const [advertisement, setAdvertisement] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
-
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   useEffect(() => {
     const fetchAdvertisementDetails = async () => {
       try {
@@ -102,10 +102,10 @@ const EditAdverticement = () => {
     try {
       const url = await uploadFirebase(file);
       await axios.put(
-        `http://localhost:8800/api/adverticements/${adverticementId}`,
+        `http://localhost:8800/api/adverticements/ads/${adverticementId}`,
         {
           ...formData,
-          // video: url,
+          userId: currentUser._id,
         }
       );
       navigate("/adverticement");
