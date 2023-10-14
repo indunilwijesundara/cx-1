@@ -1,17 +1,21 @@
+import moment from "moment-timezone";
 import Advertisement from "../models/adverticement.model.js";
-
 export const createAdverticement = async (req, res) => {
   try {
-    // Extract the scheduleDate and scheduleTime from the request body
-    const { scheduleDate, scheduleTime, ...restOfData } = req.body;
+    // Extract the scheduleDate, scheduleTime, endScheduleDate, and endScheduleTime from the request body
+    const { scheduleDate, scheduleTime, endScheduleDate, endScheduleTime, ...restOfData } = req.body;
 
-    // Combine scheduleDate and scheduleTime to create a valid Date object
-    const scheduleDateTime = new Date(`${scheduleDate}T${scheduleTime}`);
+    // Combine scheduleDate and scheduleTime to create a valid Date object for local time
+    const scheduleDateTimeLocal = moment.tz(`${scheduleDate}T${scheduleTime}`, 'YYYY-MM-DDTHH:mm:ss.SSS', 'YOUR_TIMEZONE').toDate();
 
-    // Create a new Advertisement document with the combined scheduleDateTime
+    // Combine endScheduleDate and endScheduleTime to create a valid Date object for local time
+    const endScheduleDateTimeLocal = moment.tz(`${endScheduleDate}T${endScheduleTime}`, 'YYYY-MM-DDTHH:mm:ss.SSS', 'YOUR_TIMEZONE').toDate();
+
+    // Create a new Advertisement document with the local time values
     const newAdvertisement = new Advertisement({
       ...restOfData, 
-      scheduleDateTime: scheduleDateTime, // Assign the constructed Date object
+      scheduleDateTime: scheduleDateTimeLocal,
+      endScheduleDateTime: endScheduleDateTimeLocal,
     });
 
     const savedAdvertisement = await newAdvertisement.save();
@@ -21,6 +25,7 @@ export const createAdverticement = async (req, res) => {
     res.status(500).json({ error: "Failed to create advertisement" });
   }
 };
+
 export const editAdverticement = async (req, res) => {
   const { advertisementId } = req.params; // Assuming you pass the advertisement ID as a route parameter
   console.log(advertisementId);

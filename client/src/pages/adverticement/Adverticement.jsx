@@ -15,16 +15,7 @@ const Adverticement = () => {
   const [error, setError] = useState(null);
 
   console.log(adverticementId);
-  // Define the emotion categories you want as columns
-  const emotionCategories = [
-    "Happy",
-    "Angry",
-    "Contempt",
-    "Disgust",
-    "Fear",
-    "Neutral",
-    "Surprise",
-  ];
+
   useEffect(() => {
     const fetchAdvertisementDetails = async () => {
       try {
@@ -40,29 +31,22 @@ const Adverticement = () => {
       }
     };
 
-    const fetchFeedbackDetails = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8800/api/emotions/${adverticementId}`
-        );
-        console.log(adverticementId)
-        console.log("response ----------------")
-        console.log(response);
-        setFeedback(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching feedback details", error);
-        setError("Failed to retrieve feedback data.");
-        setLoading(false);
-      }
-    };
-
     fetchAdvertisementDetails();
-    fetchFeedbackDetails();
   }, [adverticementId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <div className="single">
+          <Sidebar />
+          <div className="singleContainer">
+            <Navbar />
+            Loading...
+          </div>
+          ;
+        </div>
+      </div>
+    );
   }
 
   if (error) {

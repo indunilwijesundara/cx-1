@@ -34,12 +34,17 @@ const AdverticementTable = () => {
     const date = format(createdAt, "yyyy-MM-dd");
     const time = format(createdAt, "HH:mm:ss");
 
+    const endDateTime = new Date(item.endScheduleDateTime);
+    const enddate = format(endDateTime, "yyyy-MM-dd");
+    const endtime = format(endDateTime, "HH:mm:ss");
     return {
       id: item._id, // Manually assign a unique identifier
       title: item.title,
       video: item.video,
       date,
       time,
+      enddate,
+      endtime,
       status: item.status,
     };
   });
@@ -62,12 +67,12 @@ const AdverticementTable = () => {
       : formattedData;
 
   const userColumns = [
-    { field: "id", headerName: "ID", width: 250 },
+    { field: "id", headerName: "ID", width: 200 },
     { field: "title", headerName: "Title", width: 100 },
     {
       field: "video",
       headerName: "Video",
-      width: 100,
+      width: 50,
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
@@ -93,9 +98,19 @@ const AdverticementTable = () => {
       width: 150,
     },
     {
+      field: "enddate",
+      headerName: "End Schedule Date",
+      width: 150,
+    },
+    {
+      field: "endtime",
+      headerName: "End Schedule Time",
+      width: 150,
+    },
+    {
       field: "status",
       headerName: "Status",
-      width: 160,
+      width: 75,
       renderCell: (params) => {
         const statusText = params.row.status ? "Active" : "Pending";
         const statusClassName = params.row.status

@@ -21,8 +21,9 @@ import MatchingData from "../models/feedback.model.js";
 export const getEmotionsForAdvertisement = async (req, res) => {
   try {
     const { advertisementId } = req.params;
+    console.log(advertisementId)
     // Find users where the role is 'user'
-    const users = await EmotionCounts.find({ advertisementId: advertisementId });
+    const users = await EmotionCounts.find({ advertisement_id: advertisementId });
     res.json(users);
     
   } catch (error) {
@@ -30,8 +31,6 @@ export const getEmotionsForAdvertisement = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
-
 
 export const getAllEmotionalCounts = async (req, res) => {
   try {

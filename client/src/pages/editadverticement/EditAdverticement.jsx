@@ -11,14 +11,16 @@ const EditAdverticement = () => {
   const navigate = useNavigate();
   const { adverticementId } = useParams();
 
-  // Move useState calls to the top of the component
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
     scheduleDate: "",
     scheduleTime: "",
+    endScheduleDate: "", // Added endScheduleDate
+    endScheduleTime: "", // Added endScheduleTime
     video: "",
   });
+  console.log(formData);
   const [advertisement, setAdvertisement] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
@@ -31,20 +33,15 @@ const EditAdverticement = () => {
         );
         setAdvertisement(response.data);
         setLoading(false);
-        // Set the initial formData state with existing advertisement data
+
         setFormData({
           title: response.data.title,
-          // Convert the fetched date to "YYYY-MM-DD" format
-          scheduleDate: response.data.scheduleDate
-            ? new Date(response.data.scheduleDate).toISOString().split("T")[0]
-            : "",
-          scheduleTime: response.data.scheduleTime
-            ? new Date(response.data.scheduleTime).toISOString().split("T")[0]
-            : "",
+          scheduleDate: response.data.scheduleDate,
+          scheduleTime: response.data.scheduleTime,
+          endScheduleDate: response.data.endScheduleDate, // Set endScheduleDate
+          endScheduleTime: response.data.endScheduleTime, // Set endScheduleTime
           video: response.data.video,
         });
-        console.log("Fetched date:", response.data);
-        console.log("Formatted date:", formData.scheduleDate);
       } catch (error) {
         console.error("Error fetching advertisement details", error);
       }
@@ -53,7 +50,6 @@ const EditAdverticement = () => {
     fetchAdvertisementDetails();
   }, [adverticementId]);
 
-  // Add conditional rendering for when data is loading or not available
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -78,8 +74,17 @@ const EditAdverticement = () => {
     if (!formData.scheduleDate) {
       newErrors.scheduleDate = "Schedule Date is required";
     }
+
     if (!formData.scheduleTime) {
       newErrors.scheduleTime = "Schedule Time is required";
+    }
+
+    if (!formData.endScheduleDate) {
+      newErrors.endScheduleDate = "End Schedule Date is required";
+    }
+
+    if (!formData.endScheduleTime) {
+      newErrors.endScheduleTime = "End Schedule Time is required";
     }
 
     setErrors(newErrors);
@@ -87,13 +92,11 @@ const EditAdverticement = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
-      return; // Form validation failed, do not proceed with submission
+      return;
     }
 
     try {
@@ -102,8 +105,7 @@ const EditAdverticement = () => {
         `http://localhost:8800/api/adverticements/${adverticementId}`,
         {
           ...formData,
-          video: url,
-          userId: currentUser._id,
+          // video: url,
         }
       );
       navigate("/adverticement");
@@ -118,11 +120,11 @@ const EditAdverticement = () => {
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>Add New Advertisement</h1>
+          <h1>Edit Advertisement</h1>
         </div>
         <div className="bottom">
           <div className="left">
-            {file ? (
+            {formData.video ? (
               <video width="320" height="240" controls>
                 <source src={formData.video} type="video/mp4" />
                 Your browser does not support the video tag.
@@ -136,7 +138,7 @@ const EditAdverticement = () => {
           </div>
           <div className="right">
             <form onSubmit={handleSubmit}>
-              <div className="formInput">
+              {/* <div className="formInput">
                 <label htmlFor="file">
                   Video: <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
@@ -145,8 +147,18 @@ const EditAdverticement = () => {
                   id="file"
                   onChange={(e) => setFile(e.target.files[0])}
                 />
+              </div> */}
+              <div className="formInput">
+                <label>Video Link</label>
+                <input
+                  type="text"
+                  name="video"
+                  placeholder="Enter"
+                  value={formData.video}
+                  onChange={handleChange}
+                />
+                {errors.video && <span className="error">{errors.video}</span>}
               </div>
-
               <div className="formInput">
                 <label>Title</label>
                 <input
@@ -174,10 +186,9 @@ const EditAdverticement = () => {
               <div className="formInput">
                 <label>Schedule Time</label>
                 <input
-                  type="date"
+                  type="time"
                   name="scheduleTime"
                   placeholder=""
-                  default={formData.scheduleTime}
                   value={formData.scheduleTime}
                   onChange={handleChange}
                 />
@@ -186,7 +197,34 @@ const EditAdverticement = () => {
                 )}
               </div>
 
-              <button type="submit">Send</button>
+              <div className="formInput">
+                <label>End Schedule Date</label>
+                <input
+                  type="date"
+                  name="endScheduleDate"
+                  placeholder=""
+                  value={formData.endScheduleDate}
+                  onChange={handleChange}
+                />
+                {errors.endScheduleDate && (
+                  <span className="error">{errors.endScheduleDate}</span>
+                )}
+              </div>
+              <div className="formInput">
+                <label>End Schedule Time</label>
+                <input
+                  type="time"
+                  name="endScheduleTime"
+                  placeholder=""
+                  value={formData.endScheduleTime}
+                  onChange={handleChange}
+                />
+                {errors.endScheduleTime && (
+                  <span className="error">{errors.endScheduleTime}</span>
+                )}
+              </div>
+
+              <button type="submit">Update</button>
             </form>
           </div>
         </div>

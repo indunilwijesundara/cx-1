@@ -15,6 +15,8 @@ const NewAdverticement = () => {
     title: "",
     scheduleDate: "",
     scheduleTime: "",
+    endScheduleDate: "",
+    endScheduleTime: "",
     video: "",
   });
 
@@ -36,14 +38,19 @@ const NewAdverticement = () => {
       newErrors.title = "Title is required";
     }
     if (!formData.video) {
-      newErrors.video = "Title is required";
+      newErrors.video = "Video link is required";
     }
-
     if (!formData.scheduleDate) {
-      newErrors.scheduleDate = "Schedule Date is required";
+      newErrors.scheduleDate = "Start Schedule Date is required";
     }
     if (!formData.scheduleTime) {
-      newErrors.scheduleTime = "Schedule Time is required";
+      newErrors.scheduleTime = "Start Schedule Time is required";
+    }
+    if (!formData.endScheduleDate) {
+      newErrors.endScheduleDate = "End Schedule Date is required";
+    }
+    if (!formData.endScheduleTime) {
+      newErrors.endScheduleTime = "End Schedule Time is required";
     }
 
     setErrors(newErrors);
@@ -148,7 +155,7 @@ const NewAdverticement = () => {
                 {errors.title && <span className="error">{errors.title}</span>}
               </div>
               <div className="formInput">
-                <label>Schedule Date</label>
+                <label>Start Schedule Date</label>
                 <input
                   type="date"
                   name="scheduleDate"
@@ -161,7 +168,7 @@ const NewAdverticement = () => {
                 )}
               </div>
               <div className="formInput">
-                <label>Schedule Time</label>
+                <label>Start Schedule Time</label>
                 <input
                   type="time"
                   name="scheduleTime"
@@ -174,6 +181,32 @@ const NewAdverticement = () => {
                 )}
               </div>
 
+              <div className="formInput">
+                <label>End Schedule Date</label>
+                <input
+                  type="date"
+                  name="endScheduleDate"
+                  placeholder=""
+                  value={formData.endScheduleDate}
+                  onChange={handleChange}
+                />
+                {errors.endScheduleDate && (
+                  <span className="error">{errors.endScheduleDate}</span>
+                )}
+              </div>
+              <div className="formInput">
+                <label>End Schedule Time</label>
+                <input
+                  type="time"
+                  name="endScheduleTime"
+                  placeholder=""
+                  value={formData.endScheduleTime}
+                  onChange={handleChange}
+                />
+                {errors.endScheduleTime && (
+                  <span className="error">{errors.endScheduleTime}</span>
+                )}
+              </div>
               {/* {uploadProgress > 0 && (
                 <div className="upload-progress">
                   Uploading: {uploadProgress}% completed
