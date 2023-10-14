@@ -20,6 +20,7 @@ const EditAdverticement = () => {
     endScheduleTime: "", // Added endScheduleTime
     video: "",
   });
+  console.log(formData);
   const [advertisement, setAdvertisement] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
@@ -104,7 +105,7 @@ const EditAdverticement = () => {
         `http://localhost:8800/api/adverticements/${adverticementId}`,
         {
           ...formData,
-          video: url,
+          // video: url,
         }
       );
       navigate("/adverticement");
