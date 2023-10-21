@@ -5,7 +5,7 @@ import userRoute from "./routes/user.route.js";
 import adsRoute from "./routes/adverticement.route.js";
 import feedbackRoute from "./routes/feedback.route.js";
 import emotion_counts from "./routes/emotion_counts.route.js";
-
+import auditLogRoutes from "./routes/auditLog.routes.js"
 import authRoute from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -35,6 +35,7 @@ app.use("/api/users", userRoute);
 app.use("/api/adverticements", adsRoute);
 app.use("/api/feedbacks", feedbackRoute);
 app.use("/api/emotions", emotion_counts);
+app.use("/api/audit-logs", auditLogRoutes);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

@@ -154,15 +154,28 @@ const AdverticementTable = () => {
       },
     },
   ];
+  const [userRole, setUserRole] = useState("");
 
+  useEffect(() => {
+    // Retrieve user role from local storage
+    const storedUserRole = JSON.parse(localStorage.getItem("currentUser"));
+    console.log(storedUserRole.role);
+
+    if (storedUserRole) {
+      setUserRole(storedUserRole.role);
+    }
+  }, []);
   return (
     <div className="datatable">
       <div className="datatableTitle">
         Adverticements Details
-        <Link to="/adverticement/newads" className="link">
-          Add New
-        </Link>
+        {userRole === "user" && (
+          <Link to="/adverticement/newads" className="link">
+            Add New
+          </Link>
+        )}
       </div>
+
       <DataGrid
         className="datagrid"
         rows={filteredData}

@@ -1,5 +1,6 @@
 import moment from "moment-timezone";
 import Advertisement from "../models/adverticement.model.js";
+import AuditLog from "../models/auditLog.model.js";
 export const createAdverticement = async (req, res) => {
   try {
     // Extract the scheduleDate, scheduleTime, endScheduleDate, and endScheduleTime from the request body
@@ -19,7 +20,18 @@ export const createAdverticement = async (req, res) => {
     });
 
     const savedAdvertisement = await newAdvertisement.save();
+
+     // Log the action in the audit log
+     const auditLogEntry = new AuditLog({
+      action: "Create Advertisement",
+      user: req.body.userId, // Assuming you have user information in the request
+      details: `Created Advertisement with ID: ${savedAdvertisement._id}`,
+    });
+
+    await auditLogEntry.save();
+
     res.status(201).json(savedAdvertisement);
+    
   } catch (error) {
     console.error("Error creating advertisement:", error);
     res.status(500).json({ error: "Failed to create advertisement" });
@@ -56,7 +68,14 @@ export const editAdverticement = async (req, res) => {
     if (!updatedAdvertisement) {
       return res.status(404).json({ error: "Advertisement not found" });
     }
+ // Log the action in the audit log
+ const auditLogEntry = new AuditLog({
+  action: "Edit Advertisement",
+  user: req.body.userId,  // Assuming you have user information in the request
+  details: `Edited Advertisement with ID: ${advertisementId}`,
+});
 
+await auditLogEntry.save();
     res.status(200).json(updatedAdvertisement);
   } catch (error) {
     console.error("Error updating advertisement:", error);
@@ -99,8 +118,18 @@ export const deleteAdverticement = async (req, res) => {
       return res.status(404).json({ message: "Advertisement not found" });
     }
 
+    // Log the action in the audit log
+    const auditLogEntry = new AuditLog({
+      action: "Delete Advertisement",
+      user: advertisement.userId, // Assuming you have user information in the request
+      details: `Deleted Advertisement with ID: ${advertisement._id}`,
+    });
+
+    await auditLogEntry.save();
+
     res.status(200).json({ message: "Advertisement deleted successfully" });
   } catch (error) {
+    console.error("Error deleting advertisement:", error);
     res.status(500).send("Not found");
   }
 };
@@ -114,7 +143,14 @@ console.log(advertiseId)
       { status: true },
       { new: true }
     );
+ // Log the action in the audit log
+ const auditLogEntry = new AuditLog({
+  action: "Approve Advertisement",
+  user: advertisement.userId, // Assuming you have user information in the request
+  details: `Approved Advertisement with ID: ${advertisement._id}`,
+});
 
+await auditLogEntry.save();
     res.json({ message: 'Advertisement approved successfully', advertisement });
   } catch (error) {
     console.error('Error approving advertisement:', error);
@@ -131,7 +167,14 @@ console.log(advertiseId)
       { status: false },
       { new: true }
     );
+ // Log the action in the audit log
+ const auditLogEntry = new AuditLog({
+  action: "Reject Advertisement",
+  user: advertisement.userId, // Assuming you have user information in the request
+  details: `Rejected Advertisement with ID: ${advertisement._id}`,
+});
 
+await auditLogEntry.save();
     res.json({ message: 'Advertisement approved successfully', advertisement });
   } catch (error) {
     console.error('Error approving advertisement:', error);

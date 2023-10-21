@@ -19,6 +19,7 @@ import SingleUser from "./pages/singleUser/SingleUser";
 import EditUser from "./pages/editUser/EditUser";
 import Profile from "./pages/profile/Profile";
 import { useAuth } from "./AuthContext";
+import { AuditLog } from "./pages/auditLog/AuditLog";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -38,6 +39,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/users" element={<Users />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/auditlogs" element={<AuditLog />} />
 
           <Route path="/users/:userId" element={<SingleUser />} />
           <Route path="/users/new" element={<New />} />

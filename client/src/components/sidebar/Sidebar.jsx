@@ -94,7 +94,11 @@ const Sidebar = () => {
                 <CalendarMonthIcon className="icon" />
                 <span>About Us</span>
               </li> */}
-              <Link to="/login" style={{textDecoration:"none"}} onClick={handleLogout}>
+              <Link
+                to="/login"
+                style={{ textDecoration: "none" }}
+                onClick={handleLogout}
+              >
                 <li>
                   <ExitToAppIcon className="icon" />
                   <span>Logout</span>
@@ -142,7 +146,7 @@ const Sidebar = () => {
                   <span>Request</span>
                 </li>
               </Link>
-             
+
               <p className="title">USER</p>
               {/* <Link to="/profile" style={{ textDecoration: "none" }}>
                 <li>
@@ -150,7 +154,11 @@ const Sidebar = () => {
                   <span>Profile</span>
                 </li>
               </Link> */}
-              <Link to="/login" style={{ textDecoration: "none" }} onClick={handleLogout}>
+              <Link
+                to="/login"
+                style={{ textDecoration: "none" }}
+                onClick={handleLogout}
+              >
                 <li>
                   <ExitToAppIcon className="icon" />
                   <span>Logout</span>

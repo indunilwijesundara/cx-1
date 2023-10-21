@@ -10,7 +10,14 @@ export const register = async (req, res, next) => {
       ...req.body,
       password: hash,
     });
+ // Log the action in the audit log
+ const auditLogEntry = new AuditLog({
+  action: "User Registration",
+  user: newUser.username, // Assuming you have user information in the newly created user
+  details: `Registered user with username: ${newUser.username}`,
+});
 
+await auditLogEntry.save();
     await newUser.save();
     res.status(201).send("User has been created.");
   } catch (err) {
