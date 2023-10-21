@@ -79,12 +79,12 @@ const Sidebar = () => {
                   <span>My Ads</span>
                 </li>
               </Link>
-              <Link to="/profile" style={{ textDecoration:"none"}}>
+              {/* <Link to="/profile" style={{ textDecoration:"none"}}>
                 <li>
                   <AccountCircleOutlinedIcon className="icon" />
                   <span>Profile</span>
                 </li>
-              </Link>
+              </Link> */}
 
               {/* <li>
                 <CalendarMonthIcon className="icon" />
@@ -144,12 +144,12 @@ const Sidebar = () => {
               </Link>
              
               <p className="title">USER</p>
-              <Link to="/profile" style={{ textDecoration: "none" }}>
+              {/* <Link to="/profile" style={{ textDecoration: "none" }}>
                 <li>
                   <AccountCircleOutlinedIcon className="icon" />
                   <span>Profile</span>
                 </li>
-              </Link>
+              </Link> */}
               <Link to="/login" style={{ textDecoration: "none" }} onClick={handleLogout}>
                 <li>
                   <ExitToAppIcon className="icon" />

@@ -3,6 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Datatable from "../../components/datatable/Datatable";
 import AdverticementTable from "../../components/adverticementTable/AdverticementTable";
+import Footer from "../../components/footer/Footer";
 
 const AdverticementList = () => {
   return (
@@ -11,6 +12,7 @@ const AdverticementList = () => {
       <div className="listContainer">
         <Navbar />
         <AdverticementTable />
+        <Footer/>
       </div>
     </div>
   );

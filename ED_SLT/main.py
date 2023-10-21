@@ -13,7 +13,6 @@ from utils.general import check_img_size, check_requirements, non_max_suppressio
 from utils.torch_utils import select_device, time_synchronized
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
-import threading
 from pymongo import MongoClient
 
 # Define emotions
@@ -43,7 +42,7 @@ def print_emotion_summary(emotion_counts, ad_data, collection):
 # Create a function to send emotion count data to MongoDB with advertisement details
 
 
-def send_emotion_counts_to_mongodb(emotion_counts, ad_id, ad_title, ad_user, collection):
+def send_emotion_counts_to_mongodb(emotion_counts, ad_id, ad_title, ad_user,  collection):
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     emotion_count_data = {
         'advertisement_id': ad_id,
@@ -73,13 +72,15 @@ def get_advertisement_data(collection):
     current_time = datetime.now()
     ad_data = collection.find_one(
         {
-
             'scheduleDateTime': {
                 '$lte': current_time
             },
             'endScheduleDateTime': {
                 '$gte': current_time
-            }
+            },
+
+            'status': True
+
         }
     )
 
@@ -91,7 +92,7 @@ def get_advertisement_data(collection):
 # Function to print emotion count data after the end time
 
 
-def print_emotion_count_after_end(emotion_counts, end_time, collection):
+def print_emotion_count_after_end(emotion_counts, end_time, collection, ad_id, ad_title):
     while True:
         current_time = datetime.now()
         if current_time > end_time:
@@ -131,12 +132,16 @@ def detect(opt):
 
     emotion_counts = {emotion: 0 for emotion in emotions}
     text_position = (0, 0)
+    current_ad_id = None
+    current_ad_title = None
+    end_time = None
 
     if device.type != 'cpu':
         model(torch.zeros(1, 3, imgsz, imgsz).to(device).type_as(
             next(model.parameters())))
     t0 = time.time()
     ad_data = None  # Initialize ad data to None
+
     for path, img, im0s, vid_cap in dataset:
         if not ad_data:
             ad_data = get_advertisement_data(mongo_db['adverticements'])
@@ -150,6 +155,13 @@ def detect(opt):
             current_time = datetime.now()
 
             if start_date_time <= current_time <= end_date_time:
+                if ad_id != current_ad_id:
+                    # New ad detected, reset emotion counts and end time
+                    current_ad_id = ad_id
+                    current_ad_title = ad_title
+                    emotion_counts = {emotion: 0 for emotion in emotions}
+                    end_time = end_date_time
+
                 img = torch.from_numpy(img).to(device)
                 img = img.half() if half else img.float()
                 img /= 255.0
@@ -212,6 +224,7 @@ def detect(opt):
                     print(
                         f"FPS at {current_time}: {1 / (time.time() - t0):.2f}" + " " * 5, end="\r")
                     t0 = time.time()
+
             else:
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 print(f"Advertisement '{ad_title}' at {current_time}.")
@@ -222,9 +235,12 @@ def detect(opt):
                     print_emotion_summary(
                         emotion_counts, ad_data, mongo_collection)
                     ad_data = None  # Reset ad data to None
+
         else:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(f"No available ad at {current_time}.")
+
+    cv2.destroyAllWindows()
 
 
 if __name__ == '__main__':
