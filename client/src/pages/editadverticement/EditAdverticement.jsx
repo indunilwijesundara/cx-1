@@ -6,6 +6,7 @@ import "./editAdverticement.scss";
 import uploadFirebase from "../../utils/uploadFirebase";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import Footer from "../../components/footer/Footer";
 
 const EditAdverticement = () => {
   const navigate = useNavigate();
