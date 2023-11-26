@@ -63,6 +63,12 @@ align-items: center;
               border-bottom: 1px solid gray;
             }
           }
+          .CheckBoxes{
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: center;
+          }
           .formInputButton{
             display: flex;
             justify-content: center;

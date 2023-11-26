@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
@@ -20,6 +20,12 @@ const NewAdverticement = () => {
     video: "",
   });
 
+  const [cameraSelection, setCameraSelection] = useState({
+    camera1: false,
+    camera2: false,
+    camera3: false,
+  });
+
   const [errors, setErrors] = useState({});
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
@@ -29,6 +35,13 @@ const NewAdverticement = () => {
     setFormData((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
+  };
+
+  const handleCameraCheckboxChange = (camera) => {
+    setCameraSelection((prev) => ({
+      ...prev,
+      [camera]: !prev[camera],
+    }));
   };
 
   const validateForm = () => {
@@ -69,6 +82,7 @@ const NewAdverticement = () => {
 
     try {
       setUploading(true);
+
       const url = await uploadFirebase(file, (progressEvent) => {
         const percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
@@ -76,9 +90,25 @@ const NewAdverticement = () => {
         setUploadProgress(percentCompleted);
       });
 
+      const cameras = Object.keys(cameraSelection).filter(
+        (camera) => cameraSelection[camera]
+      );
+
+      // Default IP addresses for cameras
+      const cameraIPs = {
+        camera1: "192.13.12.23",
+        camera2: "192.13.12.24",
+        camera3: "192.13.12.25",
+      };
+
+      // Include selected cameras with their default IP addresses in the data
       await axios.post("http://localhost:8800/api/adverticements/", {
         ...formData,
         userId: currentUser._id,
+        cameras: cameras.map((camera) => ({
+          name: camera,
+          ip: cameraIPs[camera],
+        })),
       });
       navigate("/adverticement");
       setFormData({
@@ -95,7 +125,7 @@ const NewAdverticement = () => {
       setUploading(false);
     }
   };
-
+console.log(formData)
   return (
     <div className="new">
       <Sidebar />
@@ -122,16 +152,6 @@ const NewAdverticement = () => {
           </div>
           <div className="right">
             <form onSubmit={handleSubmit}>
-              {/* <div className="formInput">
-                <label htmlFor="file">
-                  Video: <DriveFolderUploadOutlinedIcon className="icon" />
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                />
-              </div> */}
               <div className="formInput">
                 <label>Video Link</label>
                 <input
@@ -207,11 +227,38 @@ const NewAdverticement = () => {
                   <span className="error">{errors.endScheduleTime}</span>
                 )}
               </div>
-              {/* {uploadProgress > 0 && (
-                <div className="upload-progress">
-                  Uploading: {uploadProgress}% completed
-                </div>
-              )} */}
+
+              {/* Add checkboxes for camera selection */}
+              <div className="CheckBoxes">
+               <div> <label>Camera 1 : </label>
+                <input
+                  type="checkbox"
+                  name="camera1"
+                  checked={cameraSelection.camera1}
+                  onChange={() => handleCameraCheckboxChange("camera1")}
+                /></div>
+                 <div> <label>Camera 2 : </label>
+                <input
+                  type="checkbox"
+                  name="camera2"
+                  checked={cameraSelection.camera2}
+                  onChange={() => handleCameraCheckboxChange("camera2")}
+                /></div>
+               <div>  <label>Camera 3 : </label>
+                <input
+                  type="checkbox"
+                  name="camera3"
+                  checked={cameraSelection.camera3}
+                  onChange={() => handleCameraCheckboxChange("camera3")}
+                /></div>
+              </div>
+              <div className="formInput">
+              
+              </div>
+              <div className="formInput">
+               
+              </div>
+
               <div className="formInput">
                 {uploading ? (
                   <div className="formInputButton">

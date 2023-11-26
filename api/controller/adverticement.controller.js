@@ -4,7 +4,7 @@ import AuditLog from "../models/auditLog.model.js";
 export const createAdverticement = async (req, res) => {
   try {
     // Extract the scheduleDate, scheduleTime, endScheduleDate, and endScheduleTime from the request body
-    const { scheduleDate, scheduleTime, endScheduleDate, endScheduleTime, ...restOfData } = req.body;
+    const { scheduleDate, scheduleTime, endScheduleDate, endScheduleTime, cameras, ...restOfData } = req.body;
 
     // Combine scheduleDate and scheduleTime to create a valid Date object for local time
     const scheduleDateTimeLocal = moment.tz(`${scheduleDate}T${scheduleTime}`, 'YYYY-MM-DDTHH:mm:ss.SSS', 'YOUR_TIMEZONE').toDate();
@@ -15,10 +15,11 @@ export const createAdverticement = async (req, res) => {
     // Create a new Advertisement document with the local time values
     const newAdvertisement = new Advertisement({
       ...restOfData, 
+      cameras,
       scheduleDateTime: scheduleDateTimeLocal,
       endScheduleDateTime: endScheduleDateTimeLocal,
     });
-
+console.log(newAdvertisement)
     const savedAdvertisement = await newAdvertisement.save();
 
      // Log the action in the audit log

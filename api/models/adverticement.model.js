@@ -28,6 +28,12 @@ const adverticementSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    cameras: [
+      {
+        name: String,
+        ip: String,
+      }
+    ],
   },
   {
     timestamps: true,
