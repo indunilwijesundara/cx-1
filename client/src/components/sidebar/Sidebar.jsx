@@ -147,6 +147,12 @@ const Sidebar = () => {
                 </li>
               </Link>
 
+              <Link to="/addcamera" style={{ textDecoration: "none" }}>
+                <li>
+                  <ScheduleSendIcon className="icon" />
+                  <span>Cameras</span>
+                </li>
+              </Link>
               <p className="title">USER</p>
               {/* <Link to="/profile" style={{ textDecoration: "none" }}>
                 <li>

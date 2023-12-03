@@ -20,6 +20,8 @@ import EditUser from "./pages/editUser/EditUser";
 import Profile from "./pages/profile/Profile";
 import { useAuth } from "./AuthContext";
 import { AuditLog } from "./pages/auditLog/AuditLog";
+import Cameras from "./pages/cameras/Cameras";
+import NewCamera from "./pages/newCamera/NewCamera";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -59,6 +61,8 @@ function App() {
             element={<EditAdverticement />}
           />
           <Route path="/requests" element={<Requests />} />
+          <Route path="/cameras" element={<Cameras />} />
+          <Route path="/addcamera" element={<NewCamera />} />
           {/* <Route path="users" element={<YourComponentHere />} /> */}
         </Routes>
       </BrowserRouter>
