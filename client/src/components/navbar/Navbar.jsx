@@ -30,8 +30,8 @@ const Navbar = () => {
           {userRole === "admin" && (
             <Link to="/auditlogs" style={{ textDecoration: "none" }}>
               <div className="item">
-                <NotificationsNoneOutlinedIcon className="icon" />
-                <div className="counter">1</div>
+                {/* <NotificationsNoneOutlinedIcon className="icon" /> */}
+                {/* <div className="counter">1</div> */}
               </div>
             </Link>
           )}

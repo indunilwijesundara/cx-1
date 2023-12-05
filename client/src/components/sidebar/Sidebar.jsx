@@ -17,6 +17,8 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
+import BallotIcon from '@mui/icons-material/Ballot';
+
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
   const navigate = useNavigate();
@@ -147,10 +149,16 @@ const Sidebar = () => {
                 </li>
               </Link>
 
-              <Link to="/addcamera" style={{ textDecoration: "none" }}>
+              <Link to="/cameras" style={{ textDecoration: "none" }}>
                 <li>
                   <ScheduleSendIcon className="icon" />
                   <span>Cameras</span>
+                </li>
+              </Link>
+              <Link to="/auditlogs" style={{ textDecoration: "none" }}>
+                <li>
+                <BallotIcon className="icon" />
+                  <span>Audit Log</span>
                 </li>
               </Link>
               <p className="title">USER</p>
