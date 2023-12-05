@@ -42,7 +42,7 @@ console.log(newAdvertisement)
 export const editAdverticement = async (req, res) => {
   const { advertisementId } = req.params;
   const updateFields = req.body;
-
+console.log(updateFields)
   try {
     // Extract the scheduleDate, scheduleTime, endScheduleDate, and endScheduleTime from the updateFields
     const { scheduleDate, scheduleTime, endScheduleDate, endScheduleTime, ...restOfData } = updateFields;
@@ -69,14 +69,16 @@ export const editAdverticement = async (req, res) => {
     if (!updatedAdvertisement) {
       return res.status(404).json({ error: "Advertisement not found" });
     }
- // Log the action in the audit log
- const auditLogEntry = new AuditLog({
-  action: "Edit Advertisement",
-  user: req.body.userId,  // Assuming you have user information in the request
-  details: `Edited Advertisement with ID: ${advertisementId}`,
-});
 
-await auditLogEntry.save();
+    // Log the action in the audit log
+    const auditLogEntry = new AuditLog({
+      action: "Edit Advertisement",
+      user: req.body.userId,  // Assuming you have user information in the request
+      details: `Edited Advertisement with ID: ${advertisementId}`,
+    });
+
+    await auditLogEntry.save();
+
     res.status(200).json(updatedAdvertisement);
   } catch (error) {
     console.error("Error updating advertisement:", error);

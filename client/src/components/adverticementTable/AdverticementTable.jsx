@@ -44,6 +44,7 @@ const AdverticementTable = () => {
       scheduleTime,
       endScheduleDate,
       endScheduleTime,
+      cameras: item.cameras.map((camera) => camera.name).join(", "),
       status: item.status,
     };
   });
@@ -60,6 +61,7 @@ const AdverticementTable = () => {
       console.error("Error deleting advertisement", error);
     }
   };
+  console.log(data)
   const filteredData =
     currentUser.role === "admin"
       ? formattedData.filter((item) => item.status === true)
@@ -105,6 +107,11 @@ const AdverticementTable = () => {
       field: "endScheduleTime",
       headerName: "End Schedule Time",
       width: 150,
+    },
+    {
+      field: "cameras",
+      headerName: "Cameras",
+      width: 200,
     },
     {
       field: "status",

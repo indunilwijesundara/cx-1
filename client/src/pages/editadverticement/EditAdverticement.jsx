@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import "./editAdverticement.scss";
-import uploadFirebase from "../../utils/uploadFirebase";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import Footer from "../../components/footer/Footer";
 
 const EditAdverticement = () => {
   const navigate = useNavigate();
   const { adverticementId } = useParams();
 
-  const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
     scheduleDate: "",
     scheduleTime: "",
-    endScheduleDate: "", // Added endScheduleDate
-    endScheduleTime: "", // Added endScheduleTime
+    endScheduleDate: "",
+    endScheduleTime: "",
     video: "",
   });
-  console.log(formData);
-  const [advertisement, setAdvertisement] = useState(null);
-  const [loading, setLoading] = useState(true);
+
+  const [cameras, setCameras] = useState([]);
+  const [cameraSelection, setCameraSelection] = useState({});
   const [errors, setErrors] = useState({});
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const [advertisement, setAdvertisement] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchAdvertisementDetails = async () => {
       try {
@@ -39,8 +38,8 @@ const EditAdverticement = () => {
           title: response.data.title,
           scheduleDate: response.data.scheduleDate,
           scheduleTime: response.data.scheduleTime,
-          endScheduleDate: response.data.endScheduleDate, // Set endScheduleDate
-          endScheduleTime: response.data.endScheduleTime, // Set endScheduleTime
+          endScheduleDate: response.data.endScheduleDate,
+          endScheduleTime: response.data.endScheduleTime,
           video: response.data.video,
         });
       } catch (error) {
@@ -48,7 +47,24 @@ const EditAdverticement = () => {
       }
     };
 
+    const fetchCameras = async () => {
+      try {
+        const response = await axios.get("http://localhost:8800/api/camera/");
+        const cameraData = response.data;
+        setCameras(cameraData);
+
+        const initialCameraSelection = {};
+        cameraData.forEach((camera) => {
+          initialCameraSelection[camera.name] = false;
+        });
+        setCameraSelection(initialCameraSelection);
+      } catch (error) {
+        console.error("Error fetching cameras:", error);
+      }
+    };
+
     fetchAdvertisementDetails();
+    fetchCameras();
   }, [adverticementId]);
 
   if (loading) {
@@ -63,6 +79,13 @@ const EditAdverticement = () => {
     setFormData((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
+  };
+
+  const handleCameraCheckboxChange = (camera) => {
+    setCameraSelection((prev) => ({
+      ...prev,
+      [camera]: !prev[camera],
+    }));
   };
 
   const validateForm = () => {
@@ -88,6 +111,11 @@ const EditAdverticement = () => {
       newErrors.endScheduleTime = "End Schedule Time is required";
     }
 
+    // Validate camera selection
+    if (Object.values(cameraSelection).filter(Boolean).length === 0) {
+      newErrors.cameras = "Select at least one camera";
+    }
+
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
@@ -101,20 +129,24 @@ const EditAdverticement = () => {
     }
 
     try {
-      const url = await uploadFirebase(file);
+      const selectedCameras = Object.keys(cameraSelection)
+        .filter((camera) => cameraSelection[camera])
+        .map((camera) => ({ name: camera }));
+
       await axios.put(
         `http://localhost:8800/api/adverticements/ads/${adverticementId}`,
         {
           ...formData,
           userId: currentUser._id,
+          cameras: selectedCameras,
         }
       );
+
       navigate("/adverticement");
     } catch (error) {
       console.error("Error updating data:", error);
     }
   };
-
   return (
     <div className="new">
       <Sidebar />
@@ -139,23 +171,13 @@ const EditAdverticement = () => {
           </div>
           <div className="right">
             <form onSubmit={handleSubmit}>
-              {/* <div className="formInput">
-                <label htmlFor="file">
-                  Video: <DriveFolderUploadOutlinedIcon className="icon" />
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                />
-              </div> */}
               <div className="formInput">
                 <label>Video Link</label>
                 <input
                   type="text"
                   name="video"
                   placeholder="Enter"
-                  value={formData.video}
+                  defaultValue={formData.video}
                   onChange={handleChange}
                 />
                 {errors.video && <span className="error">{errors.video}</span>}
@@ -223,6 +245,21 @@ const EditAdverticement = () => {
                 {errors.endScheduleTime && (
                   <span className="error">{errors.endScheduleTime}</span>
                 )}
+              </div>
+
+              {/* Add checkboxes for camera selection */}
+              <div className="CheckBoxes">
+                {cameras.map((camera) => (
+                  <div key={camera.name}>
+                    <label>{camera.name} :</label>
+                    <input
+                      type="checkbox"
+                      name={camera.name}
+                      checked={cameraSelection[camera.name]}
+                      onChange={() => handleCameraCheckboxChange(camera.name)}
+                    />
+                  </div>
+                ))}
               </div>
 
               <button type="submit">Update</button>
