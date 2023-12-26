@@ -30,22 +30,21 @@ const ReactionTable = () => {
     // const createdAt = new Date(item.scheduleDateTime);
     // const date = format(createdAt, "yyyy-MM-dd");
     // const time = format(createdAt, "HH:mm:ss");
+  const emotionCounts = item.emotion_counts || {};
 
-    return {
-      id: index + 1,
-      title: item.advertisement_title,
-
-      anger: item.emotion_counts.anger,
-      contempt: item.emotion_counts.contempt,
-      disgust: item.emotion_counts.disgust,
-      fear: item.emotion_counts.fear,
-      happy: item.emotion_counts.happy,
-      neutral: item.emotion_counts.neutral,
-      surprise: item.emotion_counts.surprise,
-      sad: item.emotion_counts.sad,
-      dateTime: item.timestamp,
-      // time,
-    };
+  return {
+    id: index + 1,
+    title: item.advertisement_title,
+    anger: emotionCounts.anger !== undefined ? emotionCounts.anger : '',
+    contempt: emotionCounts.contempt !== undefined ? emotionCounts.contempt : '',
+    disgust: emotionCounts.disgust !== undefined ? emotionCounts.disgust : '',
+    fear: emotionCounts.fear !== undefined ? emotionCounts.fear : '',
+    happy: emotionCounts.happy !== undefined ? emotionCounts.happy : '',
+    neutral: emotionCounts.neutral !== undefined ? emotionCounts.neutral : '',
+    surprise: emotionCounts.surprise !== undefined ? emotionCounts.surprise : '',
+    sad: emotionCounts.sad !== undefined ? emotionCounts.sad : '',
+    dateTime: item.timestamp,
+  };
   });
 
   const userColumns = [
