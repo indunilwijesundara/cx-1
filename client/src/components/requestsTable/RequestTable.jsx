@@ -22,7 +22,7 @@ const RequestTable = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(apiUrl);
-        setData(response.data);
+       setData(response.data);
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -31,20 +31,23 @@ const RequestTable = () => {
     fetchData();
   }, [apiUrl]);
 
-  const formattedData = data.map((item, index) => {
+const formattedData = data.map((item, index) => {
     const createdAt = new Date(item.scheduleDateTime);
-    const date = format(createdAt, "yyyy-MM-dd");
-    const time = format(createdAt, "HH:mm:ss");
+  
+    const formattedDate = createdAt.toLocaleDateString(); // Format the date
+    const formattedTime = createdAt.toLocaleTimeString(); // Format the time
 
+    console.log(createdAt);
+    
     return {
-      id: item._id, // Manually assign a unique identifier
-      title: item.title,
-      video: item.video,
-      date,
-      time,
-      status: item.status,
+        id: item._id, // Manually assign a unique identifier
+        title: item.title,
+        video: item.video,
+        date: formattedDate,
+        time: formattedTime,
+        status: item.status,
     };
-  });
+});
   const handleApprove = async (advertiseId) => {
     try {
       // Send a PUT request to your server to update the status to true

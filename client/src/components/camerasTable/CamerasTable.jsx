@@ -2,16 +2,13 @@ import "./camerasTable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { format } from "date-fns";
 import { Link } from "react-router-dom";
 
 const CamerasTable = () => {
   const [data, setData] = useState([]);
 
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  let apiUrl = "http://localhost:8800/api/camera/";
+  const apiUrl = "http://localhost:8800/api/camera/";
 
-  console.log(apiUrl);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,7 +35,7 @@ const CamerasTable = () => {
       await axios.delete(`http://localhost:8800/api/camera/${id}`);
 
       // Update the state to remove the deleted camera
-      setData((prevData) => prevData.filter((row) => row.id !== id));
+      setData((prevData) => prevData.filter((row) => row._id !== id));
     } catch (error) {
       console.error("Error deleting camera", error);
     }
@@ -55,10 +52,6 @@ const CamerasTable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            {/* Commented out Link import since it's not used
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link> */}
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}
@@ -75,18 +68,17 @@ const CamerasTable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         Requests Details
-        {/* Commented out Link since it's not used */}
         <Link to="/addcamera" className="link">
           Add New
         </Link>
       </div>
       <DataGrid
         className="datagrid"
-        rows={data} // Use data instead of formattedData
+        rows={data}
         columns={userColumns}
         pageSize={9}
         rowsPerPageOptions={[9]}
-        checkboxSelection
+      
       />
     </div>
   );

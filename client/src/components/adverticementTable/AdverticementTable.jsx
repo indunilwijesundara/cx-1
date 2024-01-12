@@ -31,10 +31,10 @@ const AdverticementTable = () => {
 
   const formattedData = data.map((item, index) => {
     // Directly extract and format the date and time components
-    const scheduleDate = item.scheduleDateTime.slice(0, 10);
-    const scheduleTime = item.scheduleDateTime.slice(11, 19);
-    const endScheduleDate = item.endScheduleDateTime.slice(0, 10);
-    const endScheduleTime = item.endScheduleDateTime.slice(11, 19);
+  const scheduleDate = item.scheduleDateTime?.slice(0, 10);
+  const scheduleTime = item.scheduleDateTime?.slice(11, 19);
+  const endScheduleDate = item.endScheduleDateTime?.slice(0, 10);
+  const endScheduleTime = item.endScheduleDateTime?.slice(11, 19);
 
     return {
       id: item._id,
